@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/icons/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/generic.css">
+  <link rel="stylesheet" href="styles/styles.css">
+  <meta property="og:title" content="MathXplains" />
+  <meta property="og:description" content="Nossa missão é descomplicar a visão que as pessoas têm sobre a matemática." />
+  <meta property="og:color" content="#345beb" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://177.193.43.179:8080/index.html" />
+  <meta property="og:image" content="http://177.193.43.179:8080/assets/icons/favicon.png" />
+  <meta name="theme-color" content="#0093a9" />
+  <title>Login - MathXplains</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="https://www.instagram.com/mathxplain_/" target="_blank" rel="noreferrer">
+        <img class="logo-image" src="assets/mathxplains-logo.png" draggable="false">
+      </a>
+      <p draggable="false" class="slogan">Descubra o <span>&#119909;</span> da sua dificuldade</p>
+      <div class="division-line"></div>
+    </header>
+
+    <form id="login-form">
+      <div class="form-field">
+        <div class="email-heading-container">
+          <label for="email">Email<span class="required-mark">*</span></label>
+          <a id="signup-redirect">Não tem uma conta?</a>
+        </div>
+        <input class="form-input" type="email" placeholder="mariana&commat;gmail.com" id="email" name="email" autocomplete="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" minlength="6" maxlength="128" required>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Senha<span class="required-mark">*</span></label>
+        <input class="form-input" type="password" id="password" name="password" autocomplete="current-password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_])[A-Za-z\d@$!%*?&\-_]+$" minlength="8" maxlength="128" required>
+      </div>
+
+      <div class="submit-container">
+        <button id="submit-button" type="submit">Entrar</button>
+        <span id="loader-icon"></span>
+        <span id="error-message"></span>
+      </div>
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="scripts/general.js"></script>
+  <script type="module" src="scripts/form-validations.js"></script>
+  <script type="module" src="scripts/form-submit.js"></script>
+</body>
+</html>

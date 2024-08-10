@@ -1,0 +1,177 @@
+.appointments-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: oklab(0.361088 -0.000220731 -0.00934622);
+  border-radius: 15px;
+  min-height: 400px;
+  height: 400px;
+  width: 75%;
+  margin: 60px auto 0 auto;
+}
+
+.container-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 20px;
+  height: 80px;
+  background-color: oklab(0.301088 -0.000220731 -0.00934622);
+  border-bottom: solid 2px rgb(114, 114, 114);
+}
+
+#appointment-count {
+  background-color: rgba(0, 0 , 0, .1);
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: white;
+}
+
+.right-tools {
+  display: flex;
+  gap: 20px;
+}
+
+.new-appointment-button {
+  user-select: none;
+  border: none;
+  box-shadow: 0 0 5px rgba(75, 167, 75, 0.3);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 4px;
+  background-color: rgb(26, 124, 26);
+  cursor: pointer;
+  transition:
+    background-color 0.1s;
+}
+
+.new-appointment-button:hover {
+  background-color: rgb(20, 102, 20);
+}
+
+.new-appointment-button:active {
+  background-color: rgb(57, 107, 57);
+}
+
+.appointment-entities-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+}
+
+.items-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.empty-image {
+  width: 30%;
+  user-select: none;
+}
+
+.empty-image img {
+  width: 100%;
+  filter: grayscale(100%);
+  opacity: .2;
+  transition: filter 1s;
+}
+
+.empty-image:hover img {
+  filter: grayscale(0);
+}
+
+.appointment {
+  position: relative;
+  padding-left: 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(70, 75, 80);
+  height: 120px;
+  width: 100%;
+}
+
+.appt-heading {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  padding: 10px;
+}
+
+.left-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.left-heading .bottom {
+  border-radius: 4px;
+  padding: 0px 2px 1px 2px;
+  transition: background-color 0.2s;
+}
+
+.left-heading .bottom:hover {
+  background-color: rgb(58, 62, 65);
+}
+
+.appt-title {
+  font-weight: 500;
+  color: white;
+}
+
+.appt-specifications {
+  color: rgb(139, 139, 139);
+  font-size: 13px;
+  width: fit-content;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.right-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-appt-button {
+  background-color: oklab(0.301088 -0.000220731 -0.00934622);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-appt-button:hover {
+  background-color: oklab(0.331088 -0.000220731 -0.00934622);
+}
+
+.delete-appt-button svg {
+  width: 70%;
+  fill: rgb(253, 68, 68);
+}
+
+.appt-timestamp {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(146, 146, 146);
+}
+
+/* Appointment Status */
+.appt-status {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+}
+
+.appt-status-active {
+  background-color: green;
+  box-shadow: 0 1px 5px green;
+}

@@ -1,0 +1,164 @@
+/* html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+} */
+
+textarea {
+  resize: vertical;
+  height: 10vh;
+  max-height: 20vh;
+  outline: none;
+}
+
+.form-wrapper {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 500;
+}
+
+#appointment-form {
+  position: relative;
+  height: fit-content;
+  padding: 4vh 0 18vh 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 62vh;
+  margin: auto;
+  background-color: oklab(0.321088 -0.000220731 -0.00934622);
+  border-radius: 1vh;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.form-close-button {
+  position: absolute;
+  color: rgb(110, 110, 110);
+  inset: 1vh 1vh auto auto;
+  cursor: pointer;
+}
+
+.form-close-button:hover {
+  color: rgb(130, 130, 130);
+}
+
+@media (max-width: 399px) {
+  #appointment-form {
+    width: 95%;
+  }
+}
+
+.form-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  width: 80%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 500;
+  font-size: 2.3vh;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-input {
+  border: none;
+  color: rgb(180, 180, 180);
+  font-weight: 500;
+  border: solid oklab(0.381088 -0.000220731 -0.00934622) 0.4vh;
+  background-color: oklab(0.281088 -0.000220731 -0.00934622);
+  padding: 1vh;
+  outline: none;
+  border-radius: .5vh;
+  font-size: 2vh;
+}
+
+.form-input:focus {
+  background-color: oklab(0.261088 -0.000220731 -0.00934622);
+}
+
+
+::-webkit-calendar-picker-indicator {
+  filter: invert() brightness(70%);
+}
+
+.form-panel-io {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  inset: auto 0 0 0;
+}
+
+.error-box {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 100%;
+  gap: 0.8vh;
+  padding: 0.8vh 1vh 0.8vh 1vh;
+  border-top: solid rgb(180, 50, 50) 0.5vh;
+  background-color: rgba(180, 50, 50, 0.5);
+}
+
+.error-box div {
+  display: flex;
+  align-items: center;
+}
+
+#api-error {
+  word-break:break-all;
+  font-size: 2.1vh;
+  font-weight: 500;
+  color: rgb(240, 110, 110);
+}
+
+.error-icon {
+  color: oklab(0.637073 0.194904 0.0909262);
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: oklab(0.281088 -0.000220731 -0.00934622);
+  padding: 2vh;
+}
+
+.buttons-row button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 2vh;
+  border: none;
+  border-radius: 0.5vh;
+  padding: 1vh 2vh;
+  cursor: pointer;
+}
+
+#modal-reset {
+  font-size: 2.1vh;
+  color: rgb(168, 168, 168);
+  background: none;
+}
+
+#modal-reset:hover {
+  text-decoration: underline;
+}
+
+#modal-create {
+  background-color: rgb(0, 150, 167);
+}
+
+#modal-create:hover {
+  background-color: rgb(0, 140, 150);
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/generic.css">
+  <link rel="stylesheet" href="styles/styles.css">
+  <meta property="og:title" content="MathXplains">
+  <meta property="og:description" content="Nossa missão é descomplicar a visão que as pessoas têm sobre a matemática." />
+  <meta property="og:color" content="#345beb">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mathxplains.com.br/home">
+  <meta property="og:image" content="https://cdn.mathxplains.com.br/icons/favicon.png">
+  <meta name="theme-color" content="#0093a9">
+  <title>Verificar Email - MathXplains</title>
+</head>
+<body>
+  <div class="container"> <!-- https://reintech.io/blog/dynamic-content-loading-with-jquery-ajax -->
+    <header>
+      <h1>Confirmar E-mail</h1>
+      <div class="division-line"></div>
+    </header>
+
+    <form id="confirmation-form">
+      <div class="form-field">
+        <label for="email">Email<span class="required-mark">*</span></label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="saltitão&commat;gmail.com" autocomplete="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" minlength="6" maxlength="128" required>
+      </div>
+
+      <div class="form-field">
+        <label for="code">Código<span class="required-mark">*</span></label>
+        <input class="form-input" type="text" id="code" name="code" pattern="\d*" maxlength="8" required>
+      </div>
+
+      <div class="submit-container">
+        <button id="submit-button" type="submit">Verificar</button>
+        <span id="loader-icon"></span>
+        <span id="error-message"></span>
+      </div>
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="module" src="script/submit-confirmation.js"></script>
+  <script type="module" src="script/form-validation.js"></script>
+</body>
+</html>

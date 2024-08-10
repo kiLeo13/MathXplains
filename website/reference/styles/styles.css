@@ -1,0 +1,257 @@
+.wrapper {
+  margin: 30px auto 0 auto;
+  padding: 2px 20px 10px 20px;
+  width: 80%;
+  border-left: solid 1px rgb(70, 70, 70);
+  border-right: solid 1px rgb(70, 70, 70);
+}
+
+.required-mark {
+  margin-left: 4px;
+  color: rgb(255, 40, 40);
+}
+
+/* Warnings / Infos */
+.warnings-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.warning-container {
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 5px;
+  border: solid 1px rgba(255, 208, 0, 0.7);
+  background-color: rgba(255, 196, 0, 0.1);
+}
+
+.warning-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  color: rgb(255, 208, 0);
+}
+
+.info-container {
+  margin-bottom: 20px;
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 5px;
+  border: solid 1px oklab(0.700834 -0.0780351 -0.1469);
+  background-color: oklab(0.700834 -0.0780351 -0.1469 / 0.1);
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  color: oklab(0.700834 -0.0780351 -0.1469);
+}
+/**/
+
+/* Titles */
+.api-description {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#entities, #endpoints {
+  margin-top: 30px;
+}
+/**/
+
+/* Endpoints */
+.endpoints {
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 20px;
+}
+
+.endpoints h3 {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+.endpoint {
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: oklab(0.291088 -0.000220731 -0.00934622);
+  padding: 20px;
+}
+
+.endpoint .title {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.endpoint .description {
+  margin-bottom: 15px;
+}
+
+.endpoint-info {
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.api-route,
+.api-route code {
+  display: flex;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+}
+/* Endpoint Limitations */
+.endpoint .limitations {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 5px;
+  padding-left: 0;
+}
+
+.endpoint .limitations span {
+  font-weight: 500;
+}
+
+.endpoint .limitations ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 20px 0;
+  padding-left: 20px;
+}
+
+.endpoint .limitations ul li {
+  font-size: 13px;
+}
+/**/
+
+.api-route {
+  font-size: 20px;
+  color: rgb(180, 180, 180);
+}
+
+.method {
+  padding: 4px 8px 4px 8px;
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 100px;
+}
+
+.method.get {
+  background-color: rgb(20, 20, 165);
+  border: solid 1px rgb(70, 70, 255);
+}
+
+.method.post {
+  background-color: rgb(10, 100, 10);
+  border: solid 1px rgb(45, 160, 45);
+}
+
+.method.patch {
+  background-color: rgb(146, 58, 0);
+  border: solid 1px rgb(192, 140, 42);
+}
+
+.method.delete {
+  background-color: rgb(100, 10, 10);
+  border: solid 1px rgb(160, 45, 45);
+}
+
+.endpoint-params {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-top: 20px;
+}
+
+.query-param {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+}
+
+.endpoint-params div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.endpoint-params h4 {
+  margin-bottom: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+/**/
+
+/* Entities */
+.entities-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.entity table {
+  margin-bottom: 10px;
+}
+/**/
+
+.blocking-code-box {
+  display: flex;
+  align-items: center;
+  background-color: rgb(30, 31, 34);
+  border-radius: 8px;
+  margin-top: 6px;
+  padding: 6px;
+}
+
+code {
+  background-color: rgb(30, 31, 34);
+  padding: 3px 5px 4px 5px;
+  border-radius: 3px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+thead tr th {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: left;
+  background-color: rgb(40, 41, 44);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-bottom: solid 1px rgb(60, 60, 60);
+  padding: 8px;
+  width: 0%;
+}
+
+td {
+  background-color: rgb(40, 41, 44);
+  padding: 8px;
+  font-size: 12px;
+}
+
+.end-docs {
+  margin: auto;
+}

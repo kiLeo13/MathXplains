@@ -1,0 +1,1 @@
+import { fetchAppointments } from './resources.js'

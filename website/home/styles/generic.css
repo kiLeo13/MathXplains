@@ -1,0 +1,39 @@
+body {
+  background-color: oklab(0.321088 -0.000220731 -0.00934622);
+  padding: 40px 0 0 0;
+}
+
+* {
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+}
+
+button:disabled {
+  opacity: 0.4 !important;
+}
+
+button:disabled:hover {
+  cursor: not-allowed !important;
+}
+
+.required-mark {
+  color: rgb(255, 48, 48);
+  margin-left: 0.4vh;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(136, 136, 136);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(136, 136, 136, 0.5);
+}

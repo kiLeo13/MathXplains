@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/generic.css">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="shortcut icon" href="assets/icons/favicon.png" type="image/x-icon">
+  <meta property="og:title" content="MathXplains API" />
+  <meta property="og:description" content="Get access to all the features in the MathXplains REST/HTTP API." />
+  <meta property="og:color" content="#345beb" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mathxplains/index.html" />
+  <meta property="og:image" content="https://cdn.mathxplains/icons/favicon.png" />
+  <meta name="theme-color" content="#0093a9" />
+  <title>MathXplains API - Reference</title>
+</head>
+<body>
+  <header>
+    <img draggable="false" src="assets/mathxplains-logo.png">
+  </header>
+
+  <div class="wrapper">
+    <h1 id="api-reference">API Reference</h1>
+    <p class="api-description">
+      The MathXplains API is a REST API for general operations,
+      giving access to all the features in the plataform.
+    </p>
+    
+    <h6>Base URL</h6>
+    <div class="blocking-code-box">
+      <code>
+        https&colon;&sol;&sol;api&period;mathxplains&period;com&period;br
+      </code>
+    </div>
+
+    <div class="authentication">
+      <h3>Authentication</h3>
+      <p>
+        Authenticating with the MathXplains API is done with JWT tokens.
+        Authentication is performed with the
+        <code>Authorization</code>
+        HTTP header in the format
+        <code>Authorization: Bearer TOKEN</code>.
+      </p>
+      <p>
+        Most endpoints require a valid authentication. Endpoints that do not enforce any kind of authentication
+        will have a warning.
+      </p>
+    </div>
+
+    <h3>Date&sol;Time Format</h3>
+    <p>
+      MathXplains utilizes the
+      <a href="https://www.loc.gov/standards/datetime/iso-tc154-wg5_n0038_iso_wd_8601-1_2016-02-16.pdf" target="_blank">ISO8601</a>
+      format for all timestamps returned in our models.
+    </p>
+
+    <h3>Nullable&sol;Optional Fields</h3>
+    <p>
+      Fields that may return
+      <code>null</code>
+      have types prefixed with a question mark.
+      Optional fields have their names suffixed with a question mark.
+    </p>
+    <p>
+      When making a request, required fields will always have their names suffixed with a
+      <code><span class="required-mark" style="margin: 0">*</span></code>
+      symbol.
+    </p>
+    <p>See examples&colon;</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>optional_field?</td>
+          <td>boolean</td>
+        </tr>
+        <tr>
+          <td>nullable_field</td>
+          <td>?string</td>
+        </tr>
+        <tr>
+          <td>both?</td>
+          <td>?string</td>
+        </tr>
+        <tr>
+          <td>send_required<span class="required-mark">*</span></td>
+          <td>integer</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Rate Limiting</h3>
+    <p>
+      The API Gateway implements limitations, preventing an excessive amount of requests.
+      You can make an average of 5 requests per second <strong>per endpoint</strong>.
+      <a href="https://datatracker.ietf.org/doc/html/rfc6585#section-4" target="_blank">Learn more</a>.
+    </p>
+    <p>
+      Undocumented endpoints are likely to have different rate limiting rules.
+      Better just not try to use them &colon;&rpar;
+    </p>
+
+    <h3>Content Type</h3>
+    <p>
+      All the data transmitted in the MathXplains API uses the JSON format by default,
+      and requires the <code>Content&hyphen;Type&colon; application&sol;json</code>
+      HTTP header to be present.
+    </p>
+
+    <h3>Boolean Query Parameters</h3>
+    <p>
+      Since query parameters do not directly support boolean values, the MathXplains API
+      uses <code>true</code> and <code>false</code> as boolean representations.
+    </p>
+    <p>
+      See examples&colon;
+    </p>
+    <div class="blocking-code-box">
+      <code>
+        <span style="color: #50ff50">&check;</span> &hyphen;&hyphen; https&colon;&sol;&sol;api.mathxplains.com&sol;subjects&quest;available&equals;true
+      </code>
+    </div>
+    <div class="blocking-code-box" style="opacity: 0.6">
+      <code>
+        <span style="color: #ff5050">&#x2715;</span> &hyphen;&hyphen; https&colon;&sol;&sol;api.mathxplains.com&sol;subjects&quest;available&equals;True
+      </code>
+    </div>
+    <div class="blocking-code-box" style="opacity: 0.6">
+      <code>
+        <span style="color: #ff5050">&#x2715;</span> &hyphen;&hyphen; https&colon;&sol;&sol;api.mathxplains.com&sol;subjects&quest;available&equals;TRUE
+      </code>
+    </div>
+
+    <h2 id="endpoints">Endpoints</h2>
+    <p>These are all the endpoints, giving access to every resource&sol;feature in the plataform.</p>
+
+    <div class="endpoints-container">
+      <div class="endpoints professors">
+        <h3>Professors</h3>
+        <div class="endpoint">
+          <p class="title">Get All Professors</p>
+          <p class="description">Returns all the existing <a href="#professor-struct">professors</a>.</p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;professors</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div>
+              <h4>Query Parameters</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>known</td>
+                    <td>boolean</td>
+                    <td>Displays only known professors &lpar;default: <code>false</code>&rpar;.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>professors</td>
+                    <td>Array of <a href="#professor-struct">professor</a> objects.</td>
+                    <td>All the expected professors.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoints subjects">
+        <h3>Subjects</h3>
+        <div class="endpoint">
+          <p class="title">Get All Subjects</p>
+          <p class="description">Returns all the existing <a href="#subject-struct">subjects</a>.</p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;subjects</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div>
+              <h4>Query Parameters</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>available</td>
+                    <td>boolean</td>
+                    <td>Displays only available subjects &lpar;default: <code>false</code>&rpar;.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>subjects</td>
+                    <td>Array of <a href="#subject-struct">subject</a> objects.</td>
+                    <td>All the expected subjects.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoints sales">
+        <h3>Sales</h3>
+        <div class="endpoint">
+          <p class="title">Get Sales Count</p>
+          <p class="description">Returns the amount of products sold.</p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;sales</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>sales_count</td>
+                    <td>integer</td>
+                    <td>The amount of sold products.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Patch Count</p>
+          <p class="description">Returns the new amount of products sold.</p>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint is admin&dash;only.
+              </span>
+            </div>
+          </div>
+          
+          <div class="endpoint-info">
+            <span class="method patch">PATCH</span>
+            <code class="api-route">&sol;sales</code>
+          </div>
+          
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>amount<span class="required-mark">*</span></td>
+                    <td>integer</td>
+                    <td>The amount to modify &lpar;negative values will subtract&rpar;.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>sales_count</td>
+                    <td>integer</td>
+                    <td>The new amount of products sold.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoints appointments">
+        <h3>Appointments</h3>
+        <div class="endpoint">
+          <p class="title">Get All Appointments</p>
+          <p class="description">Returns all the existing <a href="#appointment-struct">appointments</a>.</p>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;appointments</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div>
+              <h4>Query Parameters</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>status</td>
+                    <td>A valid <a href="#status-struct">status</a> &lpar;case-insensitive&rpar;.</td>
+                    <td>Displays only appointments with the given status.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>appointments</td>
+                    <td>Array of <a href="#appointment-struct">appointment</a> objects.</td>
+                    <td>All your appointments.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Create Appointment</p>
+          <p class="description">Creates a new appointment. Returns an
+            <a href="#appointment-struct">appointment</a>
+            object on success.
+          </p>
+
+          <div class="limitations">
+            <span>Limitations</span>
+            <ul>
+              <li><code>topic</code> must be in range of <code>5</code> and <code>30</code> characters &lpar;inclusive&rpar;.</li>
+              <li><code>description</code> must be in range of <code>10</code> and <code>1000</code> characters &lpar;inclusive&rpar;.</li>
+              <li>Only <code>available</code> subjects can be provided, otherwise you will get a <code>400 Bad Request</code>.</li>
+              <li>The <code>scheduled_at</code> field cannot be in the past and more than 1 month in the future.</li>
+            </ul>
+          </div>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                The MathXplains API may strip certain characters and remove trailing&sol;leading spaces,
+                in these cases, they will not count towards the range constraints.
+              </span>
+            </div>
+  
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                All users have a limit of
+                <code>10</code>
+                active &lpar;per the <code>is_active</code> field&rpar; appointments.
+                This endpoint will fail with a <code>400 Bad Request</code>
+                if this constraint is violated.
+              </span>
+            </div>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method post">POST</span>
+            <code class="api-route">&sol;appointments</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>topic<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The topic&sol;title of the appointment.</td>
+                  </tr>
+                  <tr>
+                    <td>description<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The description of the appointment.</td>
+                  </tr>
+                  <tr>
+                    <td>subject_id<span class="required-mark">*</span></td>
+                    <td>integer</td>
+                    <td>The ID of the subject of the appointment.</td>
+                  </tr>
+                  <tr>
+                    <td>scheduled_at<span class="required-mark">*</span></td>
+                    <td>ISO8601 date</td>
+                    <td>When the user must attend to the scheduled appointment.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <p>
+                The <code>scheduled_at</code> field must be in date&dash;only format&colon;
+                <code>2024&dash;01&dash;18</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Delete Appointment</p>
+          <p class="description">
+            Deletes an appointment by its ID. Returns a
+            <code>204 No Content</code>
+            on success. The request will not fail if the resource for the given ID does not exist.
+          </p>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>This endpoint does not delete appointments older than 24 hours.</span>
+            </div>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method delete">DELETE</span>
+            <div class="api-route">
+              <code>&sol;appointments&sol;<span class="query-param">&lcub;appointment.id&rcub;</span></code>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoints users">
+        <h3>Users</h3>
+        <div class="endpoint">
+          <p class="title">Get User</p>
+          <p class="description">Returns a <a href="#user-struct">user</a> object.</p>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint is admin&dash;only &lpar;unless providing your own id&rpar;.
+              </span>
+            </div>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;users&sol;<span class="query-param">&lcub;user.id&rcub;</span></code>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Get Self User</p>
+          <p class="description">Returns the self <a href="#user-struct">user</a>.</p>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;users&sol;<span class="query-param">&commat;me</span></code>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Get Users</p>
+          <p class="description">Returns all the existing <a href="#appointment-struct">users</a>.</p>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint is admin&dash;only.
+              </span>
+            </div>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;users</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>users</td>
+                    <td>Array of <a href="#user-struct">user</a> object.</td>
+                    <td>All the existing users.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Create User</p>
+          <p class="description">Creates a new user with the given credentials. Returns a
+            <code>204 No Content</code>
+            on success.
+          </p>
+
+          <div class="limitations">
+            <span>Limitations</span>
+            <ul>
+              <li><code>name</code> must be in range of <code>3</code> and <code>64</code> characters &lpar;inclusive&rpar;.</li>
+              <li><code>email</code> must be in range of <code>6</code> and <code>128</code> characters &lpar;inclusive&rpar;. Regex: <code>&lbrack;a-z0-9&period;_%+\-&rbrack;+@[a-z0-9.\-]+\.[a-z]{2,}&dollar;</code>.</li>
+              <li><code>password</code> must be in range of <code>8</code> and <code>128</code> characters &lpar;inclusive&rpar;, have at least one lower and uppercase character and one number.</li>
+            </ul>
+          </div>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint does trigger an email confirmation to the recipient&apos;s <code>email</code>.
+              </span>
+            </div>
+          </div>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method post">POST</span>
+            <code class="api-route">&sol;users</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>name<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The username of the account.</td>
+                  </tr>
+                  <tr>
+                    <td>email<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The email of the account.</td>
+                  </tr>
+                  <tr>
+                    <td>password<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The password of the account.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Create Email Confirmation</p>
+          <p class="description">Verifies the email address of the account being created. Returns a <code>204 No Content</code> on success.</p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method post">POST</span>
+            <code class="api-route">&sol;users&sol;verify</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>email<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>The email to be confirmed.</td>
+                  </tr>
+                  <tr>
+                    <td>code<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>The code sent in the recipient&apos;s email address.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Sign In User</p>
+          <p class="description">Signs In the user with the given credentials.</p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method post">POST</span>
+            <code class="api-route">&sol;users&sol;login</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>email<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>The email of the user to sign in.</td>
+                  </tr>
+                  <tr>
+                    <td>password<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>The password of the user to sign in.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="request-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>token</td>
+                    <td>string</span></td>
+                    <td>The JWT token used to authorize the requests.</td>
+                  </tr>
+                  <tr>
+                    <td>refresh_token</td>
+                    <td>string</span></td>
+                    <td>The refresh token, used to generate a new token.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="entities">Entities</h2>
+    <p>
+      All MathXplains endpoints return a pre-defined model&sol;entity.
+      These structures are defined and explained &lpar;if needed&rpar; below.
+    </p>
+
+    <div class="entities-container">
+      <div class="entity professor">
+        <h3 id="professor-struct">Professors</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>integer</td>
+              <td>The ID uniquely representing the professor.</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>The &quot;common&quot; name of the professor.</td>
+            </tr>
+            <tr>
+              <td>full_name</td>
+              <td>string</td>
+              <td>The full name of the professor.</td>
+            </tr>
+            <tr>
+              <td>common_name &ast;</td>
+              <td>?string</td>
+              <td>How people usually call the professor.</td>
+            </tr>
+            <tr>
+              <td>known &ast;&ast;</td>
+              <td>boolean</td>
+              <td>Whether it's a known professor or not.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fields-specifications">
+          <p>
+            &ast; Represents how people usually call the given professor, if this field is
+            <code>null</code>, then it means people already call the professor by their <code>name</code>,
+            your application should fall back to
+            <code>name</code> in this case.
+          </p>
+          <p>
+            &ast;&ast; This field is <code>true</code> when the given professor has conducted classes
+            for the 3A class in the past (or still does), <code>false</code> otherwise.
+          </p>          
+        </div>
+      </div>
+      <div class="entity subject">
+        <h3 id="subject-struct">Subjects</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>integer</td>
+              <td>The ID uniquely representing the subject.</td>
+            </tr>
+            <tr>
+              <td>professor_id &ast;</td>
+              <td>?integer</td>
+              <td>The ID of the professor responsible for this subject.</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>The &quot;common&quot; name of the subject.</td>
+            </tr>
+            <tr>
+              <td>full_name</td>
+              <td>string</td>
+              <td>The full&sol;real name of this subject.</td>
+            </tr>
+            <tr>
+              <td>available &ast;&ast;</td>
+              <td>boolean</td>
+              <td>Whether it is available for usage or not.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fields-specifications">
+          <p>
+            &ast; This field will be <code>null</code> if the
+            subject does exist and is available, but no professors currently conduct it for the 3A class.
+          </p>         
+          <p>
+            &ast;&ast; MathXplains API restricts the usage of some subjects due to the real intentions
+            of its creation, in general, only subjects related to mathematical operations are available
+            and accepted by the API when invoking endpoints like <code>Create Appointment</code>.
+          </p>         
+        </div>
+      </div>
+      <div class="entity appointment">
+        <h3 id="appointment-struct">Appointments</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>integer</td>
+              <td>The ID uniquely representing the appointment.</td>
+            </tr>
+            <tr>
+              <td>topic</td>
+              <td>string</td>
+              <td>The topic of the appointment.</td>
+            </tr>
+            <tr>
+              <td>description</td>
+              <td>string</td>
+              <td>The description of this appointment.</td>
+            </tr>
+            <tr>
+              <td>user_id</td>
+              <td>string</td>
+              <td>The ID of the user who created this appointment.</td>
+            </tr>
+            <tr>
+              <td>subject_id</td>
+              <td>integer</td>
+              <td>The ID of the subject of this appointment.</td>
+            </tr>
+            <tr>
+              <td>professor_id</td>
+              <td>?integer</td>
+              <td>The ID of the professor responsible for the subject used in this appointment.</td>
+            </tr>
+            <tr>
+              <td>scheduled_at</td>
+              <td>ISO8601 date</td>
+              <td>When the appointment is scheduled to.</td>
+            </tr>
+            <tr>
+              <td>rejected &ast;</td>
+              <td>boolean</td>
+              <td>Whether this appointment was rejected by an admin or not.</td>
+            </tr>
+            <tr>
+              <td>is_active</td>
+              <td>boolean</td>
+              <td>Whether this appointemnt is still active or not.</td>
+            </tr>
+            <tr>
+              <td>created_at</td>
+              <td>ISO8601 timestamp</td>
+              <td>When the returned appointment was created.</td>
+            </tr>
+            <tr>
+              <td>updated_at</td>
+              <td>ISO8601 timestamp</td>
+              <td>The last time the appointment was updated.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fields-specifications">
+          <p>
+            &ast; Appointments can be rejected by several reasons, such as: undescriptive topic&sol;description,
+            subject and topic not matching, excessive amount of questions etc.
+          </p>         
+        </div>
+      </div>
+      <div class="entity user">
+        <h3 id="user-struct">User</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td>The ID uniquely for this user.</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>The name the user has registered.</td>
+            </tr>
+            <tr>
+              <td>is_admin</td>
+              <td>boolean</td>
+              <td>Whether the user has admin privileges or not.</td>
+            </tr>
+            <tr>
+              <td>email_verified</td>
+              <td>boolean</td>
+              <td>Whether the user has verified their email or not.</td>
+            </tr>
+            <tr>
+              <td>verified_at</td>
+              <td>?ISO8601</td>
+              <td>When the user verified their email.</td>
+            </tr>
+            <tr>
+              <td>created_at</td>
+              <td>ISO8601 timestamp</td>
+              <td>When the account was successfully created.</td>
+            </tr>
+            <tr>
+              <td>updated_at</td>
+              <td>ISO8601 timestamp</td>
+              <td>The last time the user was updated.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="end-docs">
+        <p>That&apos;s it&excl; You have read it all &colon;&rpar;</p>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
