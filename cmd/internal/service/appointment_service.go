@@ -165,7 +165,7 @@ func checkDeletionDate(sec int64) *APIError {
 	now := time.Now().UTC()
 	period := now.Sub(schd)
 
-	if period.Seconds() >= maxDeletionPeriod.Seconds() { // Remove seconds
+	if period >= maxDeletionPeriod {
 		return ErrorDateInThePast
 	}
 	return nil
