@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="https://cdn.mathxplains.com.br/favicon.png" type="image/x-icon">
+  <title>Not Found - MathXplains</title>
+</head>
+<style>
+  body {
+    background-color: rgb(50, 54, 61);
+    font-family: Montserrat, Arial, Helvetica, sans-serif;
+    font-size: 30px;
+  }
+
+  #wrapper {
+    inset: 0;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgb(161, 161, 161);
+    height: fit-content;
+    border-radius: 100px;
+    width: fit-content;
+    margin: auto;
+    padding: 20px;
+  }
+</style>
+<body>
+  <div id="wrapper">
+    <span id="title">QUE? ONDE?</span>
+  </div>
+</body>
+<script>
+  (() => {
+    setInterval(() => {
+      const color = getRandomColor()
+      document.getElementById('title').style.color = color
+    }, 100)
+
+    setInterval(() => {
+      const color = getRandomColor()
+      document.getElementById('wrapper').style.backgroundColor = color
+    }, 100)
+
+    setTimeout(() => {
+      location.href = 'https://mathxplains.com.br'
+    }, 3000)
+  })()
+
+  function getRandomColor() {
+    const ranColor = Math.floor(Math.random() * 0xFFFFFF)
+    const hex = "#" + ranColor.toString(16).padStart(6, '0')
+    return hex
+}
+</script>
+</html>
