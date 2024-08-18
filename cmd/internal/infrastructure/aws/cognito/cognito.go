@@ -19,6 +19,7 @@ type User struct {
 type CognitoInterface interface {
 	SignUp(user *User) (string, error)
 	ConfirmAccount(user *UserConfirmation) error
+	ResendConfirmation(user *UserConfirmation) error
 	SignIn(user *UserLogin) (*AuthCreate, error)
 	RefreshToken(refreshToken string) (string, error)
 	GetUserByToken(token string) (*cognito.GetUserOutput, error)
@@ -83,10 +84,16 @@ func (c *cognitoClient) ConfirmAccount(user *UserConfirmation) error {
 		ClientId:         aws.String(c.appClientId),
 	}
 	_, err := c.cognitoClient.ConfirmSignUp(confirmationInput)
-	if err != nil {
-		return err
+	return err
+}
+
+func (c *cognitoClient) ResendConfirmation(user *UserConfirmation) error {
+	confirmationInput := &cognito.ResendConfirmationCodeInput{
+		Username: aws.String(user.Email),
+		ClientId: aws.String(c.appClientId),
 	}
-	return nil
+	_, err := c.cognitoClient.ResendConfirmationCode(confirmationInput)
+	return err
 }
 
 type UserLogin struct {
