@@ -18,10 +18,11 @@ type User struct {
 
 type CognitoInterface interface {
 	SignUp(user *User) (string, error)
-	ConfirmAccount(user *UserConfirmation) error
-	ResendConfirmation(user *UserConfirmation) error
 	SignIn(user *UserLogin) (*AuthCreate, error)
-	RefreshToken(refreshToken string) (string, error)
+	ConfirmAccount(user *UserConfirmation) error
+	DeleteUser(accessToken string) error
+	ResendConfirmation(user *UserConfirmation) error
+	RefreshToken(refreshToken string) (*TokenRefreshOut, error)
 	GetUserByToken(token string) (*cognito.GetUserOutput, error)
 }
 
@@ -84,7 +85,10 @@ func (c *cognitoClient) ConfirmAccount(user *UserConfirmation) error {
 		ClientId:         aws.String(c.appClientId),
 	}
 	_, err := c.cognitoClient.ConfirmSignUp(confirmationInput)
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c *cognitoClient) ResendConfirmation(user *UserConfirmation) error {
@@ -93,7 +97,10 @@ func (c *cognitoClient) ResendConfirmation(user *UserConfirmation) error {
 		ClientId: aws.String(c.appClientId),
 	}
 	_, err := c.cognitoClient.ResendConfirmationCode(confirmationInput)
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 type UserLogin struct {
@@ -103,10 +110,16 @@ type UserLogin struct {
 
 type AuthCreate struct {
 	Token        string `json:"token"`
+	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
-func (c *cognitoClient) RefreshToken(refreshToken string) (string, error) {
+type TokenRefreshOut struct {
+	AccessToken string `json:"access_token"`
+	IDToken     string `json:"id_token"`
+}
+
+func (c *cognitoClient) RefreshToken(refreshToken string) (*TokenRefreshOut, error) {
 	authInput := &cognito.InitiateAuthInput{
 		AuthFlow: aws.String("REFRESH_TOKEN_AUTH"),
 		AuthParameters: aws.StringMap(map[string]string{
@@ -116,9 +129,12 @@ func (c *cognitoClient) RefreshToken(refreshToken string) (string, error) {
 	}
 	result, err := c.cognitoClient.InitiateAuth(authInput)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return *result.AuthenticationResult.IdToken, nil
+	return &TokenRefreshOut{
+		AccessToken: *result.AuthenticationResult.AccessToken,
+		IDToken:     *result.AuthenticationResult.IdToken,
+	}, nil
 }
 
 func (c *cognitoClient) SignIn(user *UserLogin) (*AuthCreate, error) {
@@ -137,7 +153,19 @@ func (c *cognitoClient) SignIn(user *UserLogin) (*AuthCreate, error) {
 	return &AuthCreate{
 		Token:        *result.AuthenticationResult.IdToken,
 		RefreshToken: *result.AuthenticationResult.RefreshToken,
+		AccessToken:  *result.AuthenticationResult.AccessToken,
 	}, nil
+}
+
+func (c *cognitoClient) DeleteUser(accessToken string) error {
+	del := &cognito.DeleteUserInput{
+		AccessToken: aws.String(accessToken),
+	}
+	_, err := c.cognitoClient.DeleteUser(del)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c *cognitoClient) GetUserByToken(token string) (*cognito.GetUserOutput, error) {
@@ -151,7 +179,7 @@ func (c *cognitoClient) GetUserByToken(token string) (*cognito.GetUserOutput, er
 	return result, nil
 }
 
-type COGSelfUser struct {
+type SelfUser struct {
 	ID            string `json:"id"`
 	Name          string `json:"name"`
 	Email         string `json:"email"`

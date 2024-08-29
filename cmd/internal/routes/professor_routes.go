@@ -8,10 +8,13 @@ import (
 
 func GetProfessors(c echo.Context) error {
 	knownOnly := c.QueryParam("known") == "true"
-	professors := service.GetProfessors(knownOnly)
+	professors, err := service.GetProfessors(knownOnly)
+	if err != nil {
+		return c.JSON(err.Status, err)
+	}
+
 	resp := R{
 		"professors": professors,
 	}
-
 	return c.JSON(http.StatusOK, &resp)
 }

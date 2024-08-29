@@ -2,6 +2,7 @@ package repository
 
 import (
 	"MathXplains/internal/domain/entity"
+	"MathXplains/internal/domain/sqlite"
 	"database/sql"
 )
 
@@ -14,7 +15,6 @@ func NewProfessorRepository(db *sql.DB) *ProfessorRepository {
 }
 
 func (p *ProfessorRepository) FindAll(knownOnly bool) ([]*domain.Professor, error) {
-
 	var condition string
 	if knownOnly {
 		condition = "WHERE known = 1"
@@ -24,32 +24,39 @@ func (p *ProfessorRepository) FindAll(knownOnly bool) ([]*domain.Professor, erro
 	if err != nil {
 		return nil, err
 	}
-
-	return serializeProfessors(res)
+	return deserializeProfessors(res)
 }
 
 func (p *ProfessorRepository) DeleteById(id int) error {
-
 	_, err := p.db.Exec("DELETE FROM professors WHERE id = ?;", id)
 	return err
 }
 
-func serializeProfessors(rows *sql.Rows) ([]*domain.Professor, error) {
+func deserializeProfessors(rows *sql.Rows) ([]*domain.Professor, error) {
 	var professors []*domain.Professor
 
 	for rows.Next() {
-		var professor domain.Professor
-		err := rows.Scan(
-			&professor.ID,
-			&professor.Name,
-			&professor.FullName,
-			&professor.Nick,
-			&professor.Known,
-		)
+		prof, err := deserializeProfessor(rows)
 		if err != nil {
 			return nil, err
 		}
-		professors = append(professors, &professor)
+		professors = append(professors, prof)
 	}
 	return professors, nil
+}
+
+func deserializeProfessor(row sqlite.RowScanner) (*domain.Professor, error) {
+	var prof domain.Professor
+
+	err := row.Scan(
+		&prof.ID,
+		&prof.Name,
+		&prof.FullName,
+		&prof.Nick,
+		&prof.Known,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &prof, nil
 }

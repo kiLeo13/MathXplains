@@ -1,4 +1,5 @@
-import { setButtonLoading, isDisabled } from './buttons.js'
+import { setButtonLoading, hideError, showError, canSubmit } from '../resources/buttons.js'
+import ROUTES from './routes.js'
 
 $(() => {
   const form = $('#confirmation-form')
@@ -6,7 +7,7 @@ $(() => {
   form.on('submit', (e) => {
     e.preventDefault()
 
-    if (isDisabled()) return
+    if (!canSubmit()) return
 
     const email = $('#email').val()
     const code = $('#code').val()
@@ -21,7 +22,8 @@ $(() => {
 })
 
 async function handleRequest(credentials) {
-  const resp = await fetch(`${location.origin}/api/users/verify`, {
+  hideError()
+  const resp = await fetch(ROUTES.CREATE_CONFIRMATION, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -30,17 +32,6 @@ async function handleRequest(credentials) {
   })
   const json = await resp.json()
 
-  if (json.token) {
-    localStorage.setItem('authToken', json.token)
-    location.href = `${location.origin}/home`
-  } else {
-    setButtonLoading(false)
-    displayError(json.error)
-  }
-}
-
-function displayError(msg) {
-  $('#error-message').css({
-    opacity: 1
-  }).text(msg)
+  if (resp.ok) location.href = location.origin + '/login'
+  else showError(json.error)
 }

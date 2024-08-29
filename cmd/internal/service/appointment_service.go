@@ -2,6 +2,7 @@ package service
 
 import (
 	domain "MathXplains/internal/domain/entity"
+	"MathXplains/internal/utils"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -40,23 +41,23 @@ type AppointmentDTO struct {
 type AppointmentCreateDTO struct {
 	Topic       string `json:"topic"`
 	Description string `json:"description"`
+	UserID      string
 	ScheduledAt string `json:"scheduled_at"`
 	SubjectID   int    `json:"subject_id"`
 }
 
-func CreateAppointment(userId string, data *AppointmentCreateDTO) (*AppointmentDTO, *APIError) {
-	if err := checkCountLimit(userId); err != nil {
+func CreateAppointment(data *AppointmentCreateDTO) (*AppointmentDTO, *APIError) {
+	if err := checkCountLimit(data.UserID); err != nil {
+		return nil, err
+	}
+	data.Topic = strings.TrimSpace(data.Topic)
+	data.Description = strings.TrimSpace(data.Description)
+
+	if err := checkTopic(data.Topic); err != nil {
 		return nil, err
 	}
 
-	topic := strings.TrimSpace(data.Topic)
-	desc := strings.TrimSpace(data.Description)
-
-	if err := checkTopic(topic); err != nil {
-		return nil, err
-	}
-
-	if err := checkDescription(desc); err != nil {
+	if err := checkDescription(data.Description); err != nil {
 		return nil, err
 	}
 
@@ -64,28 +65,34 @@ func CreateAppointment(userId string, data *AppointmentCreateDTO) (*AppointmentD
 		return nil, err
 	}
 
-	scheduledAt, err := ToEpoch(time.DateOnly, data.ScheduledAt)
+	schd, err := utils.DateFromFormat(data.ScheduledAt)
 	if err != nil {
 		return nil, ErrorIncorrectDateFormat
 	}
 
-	if isDateInPast(scheduledAt) {
+	if isDateInPast(schd) {
 		return nil, ErrorDateInThePast
 	}
 
 	now := NowUTC()
-	newApptm, err := apptmRepo.Save(topic, desc, userId, data.SubjectID, scheduledAt, now)
+	apptm := &domain.Appointment{
+		Topic:       data.Topic,
+		Description: data.Description,
+		UserID:      data.UserID,
+		SubjectID:   data.SubjectID,
+		ScheduledAt: data.ScheduledAt,
+		CreatedAt:   now,
+	}
+	newApptm, err := apptmRepo.Save(apptm)
 	if err != nil {
 		fmt.Println(err)
 		return nil, ErrorInternalServer
 	}
-
 	return toApptmDTO(newApptm), nil
 }
 
-func GetAppointments(all bool, status, userId string) ([]*AppointmentDTO, *APIError) {
-	status = strings.ToLower(status)
-	apptmts, err := getFiltered(all, userId)
+func GetAppointments(activeOnly, all bool, userId string) ([]*AppointmentDTO, *APIError) {
+	apptmts, err := getFiltered(activeOnly, all, userId)
 	if err != nil {
 		fmt.Println(err)
 		return nil, ErrorInternalServer
@@ -104,14 +111,14 @@ func DeleteAppointment(userId, id string) *APIError {
 		return ErrorInvalidPathParam("id", "integer")
 	}
 
-	apptm, err := apptmRepo.Find(userId, apptId)
+	apptm, err := apptmRepo.FindByIdAndUser(userId, apptId)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		fmt.Println(err)
 		return ErrorInternalServer
 	}
 
 	if apptm == nil {
-		return nil
+		return ErrorAppointmentNotFound
 	}
 
 	if err := checkDeletionDate(apptm.CreatedAt); err != nil {
@@ -125,11 +132,11 @@ func DeleteAppointment(userId, id string) *APIError {
 	return nil
 }
 
-func getFiltered(all bool, userId string) ([]*domain.Appointment, error) {
+func getFiltered(past, all bool, userId string) ([]*domain.Appointment, error) {
 	if all {
 		return apptmRepo.FindAll()
 	} else {
-		return apptmRepo.FindByUserID(userId)
+		return apptmRepo.FindAllByUserID(past, userId)
 	}
 }
 
@@ -140,7 +147,7 @@ func checkCountLimit(userId string) *APIError {
 		return ErrorInternalServer
 	}
 
-	if count > MaxActiveAppointments {
+	if count >= MaxActiveAppointments {
 		return ErrorTooManyAppointments
 	}
 	return nil
@@ -185,7 +192,6 @@ func checkSubject(subjectId int) *APIError {
 	if subj.Available != 1 {
 		return ErrorSubjectUnavailable
 	}
-
 	return nil
 }
 
@@ -198,8 +204,8 @@ func toApptmDTO(a *domain.Appointment) *AppointmentDTO {
 		SubjectID:   a.SubjectID,
 		ProfessorID: a.ProfessorID,
 		Rejected:    a.Rejected,
+		ScheduledAt: a.ScheduledAt,
 		IsActive:    a.IsActive(),
-		ScheduledAt: FormatDate(a.ScheduledAt),
 		CreatedAt:   FormatEpoch(a.CreatedAt),
 		UpdatedAt:   FormatEpoch(a.UpdatedAt),
 	}

@@ -5,6 +5,7 @@ import (
 	"MathXplains/internal/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"strings"
 )
 
 func GetUsers(c echo.Context) error {
@@ -16,7 +17,7 @@ func GetUsers(c echo.Context) error {
 
 	users, err := service.GetAllUsers()
 	if err != nil {
-		return c.JSON(err.Code, err)
+		return c.JSON(err.Status, err)
 	}
 	return c.JSON(http.StatusOK, &R{"users": users})
 }
@@ -29,9 +30,9 @@ func CreateUser(c echo.Context) error {
 
 	err := service.CreateUser(&body)
 	if err != nil {
-		return c.JSON(err.Code, err)
+		return c.JSON(err.Status, err)
 	}
-	return c.NoContent(http.StatusNoContent)
+	return c.NoContent(http.StatusOK)
 }
 
 func LoginUser(c echo.Context) error {
@@ -40,11 +41,11 @@ func LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
 	}
 
-	token, err := service.SignIn(&req)
+	create, err := service.SignIn(&req)
 	if err != nil {
-		return c.JSON(err.Code, err)
+		return c.JSON(err.Status, err)
 	}
-	return c.JSON(http.StatusOK, token)
+	return c.JSON(http.StatusOK, create)
 }
 
 func RefreshToken(c echo.Context) error {
@@ -52,16 +53,16 @@ func RefreshToken(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
 	}
-	token, ok := req["token"]
+	token, ok := req["refresh_token"]
 	if !ok {
-		return c.JSON(http.StatusBadRequest, service.ErrorParamNotProvided("token"))
+		return c.JSON(http.StatusBadRequest, service.ErrorParamNotProvided("refresh_token"))
 	}
 
-	auth, err := service.RefreshToken(token)
+	tokens, err := service.RefreshToken(token)
 	if err != nil {
-		return c.JSON(err.Code, err)
+		return c.JSON(err.Status, err)
 	}
-	return c.JSON(http.StatusOK, R{"token": auth})
+	return c.JSON(http.StatusOK, tokens)
 }
 
 func ConfirmAccount(c echo.Context) error {
@@ -72,9 +73,22 @@ func ConfirmAccount(c echo.Context) error {
 
 	err := service.CreateConfirmation(&body)
 	if err != nil {
-		return c.JSON(err.Code, err)
+		return c.JSON(err.Status, err)
 	}
-	return c.NoContent(http.StatusNoContent)
+	return c.NoContent(http.StatusOK)
+}
+
+func ResendConfirmation(c echo.Context) error {
+	body := cognito.UserConfirmation{}
+	if err := c.Bind(&body); err != nil {
+		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
+	}
+
+	err := service.ResendConfirmation(&body)
+	if err != nil {
+		return c.JSON(err.Status, err)
+	}
+	return c.NoContent(http.StatusOK)
 }
 
 func GetUserByID(c echo.Context) error {
@@ -90,7 +104,25 @@ func GetUserByID(c echo.Context) error {
 
 	user, err := service.GetUserById(id)
 	if err != nil {
-		return c.JSON(err.Code, err)
+		return c.JSON(err.Status, err)
 	}
 	return c.JSON(http.StatusOK, user)
+}
+
+func DeleteSelfUser(c echo.Context) error {
+	userId := c.Request().Header.Get("Sub")
+	del := service.DeleteUserDTO{ID: userId}
+	if err := c.Bind(&del); err != nil {
+		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
+	}
+
+	if strings.TrimSpace(del.AccessToken) == "" {
+		return c.JSON(http.StatusBadRequest, service.ErrorParamNotProvided("access_token"))
+	}
+
+	err := service.DeleteUserByID(&del)
+	if err != nil {
+		return c.JSON(err.Status, err)
+	}
+	return c.NoContent(http.StatusOK)
 }

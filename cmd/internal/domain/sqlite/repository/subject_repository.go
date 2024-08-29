@@ -2,6 +2,7 @@ package repository
 
 import (
 	"MathXplains/internal/domain/entity"
+	"MathXplains/internal/domain/sqlite"
 	"database/sql"
 )
 
@@ -11,14 +12,6 @@ type SubjectRepository struct {
 
 func NewSubjectRepository(db *sql.DB) *SubjectRepository {
 	return &SubjectRepository{db}
-}
-
-func (s *SubjectRepository) Save(subject *domain.Subject) error {
-
-	_, err := s.db.Exec(`INSERT INTO subjects (professor_id, name, full_name)
-	VALUES (?, ?, ?);`, subject.ProfessorID, subject.Name, subject.FullName)
-
-	return err
 }
 
 func (s *SubjectRepository) FindAll(availableOnly bool) ([]*domain.Subject, error) {
@@ -31,14 +24,13 @@ func (s *SubjectRepository) FindAll(availableOnly bool) ([]*domain.Subject, erro
 	if err != nil {
 		return nil, err
 	}
-
-	return serializeSubjects(rows)
+	return deserializeSubjects(rows)
 }
 
 func (s *SubjectRepository) FindById(id int) (*domain.Subject, error) {
 	res := s.db.QueryRow("SELECT * FROM subjects WHERE id = ?", id)
 
-	subj, err := serializeSubject(res)
+	subj, err := deserializeSubject(res)
 	if err != nil {
 		return nil, err
 	}
@@ -50,27 +42,20 @@ func (s *SubjectRepository) DeleteById(id int) error {
 	return err
 }
 
-func serializeSubjects(rows *sql.Rows) ([]*domain.Subject, error) {
+func deserializeSubjects(rows *sql.Rows) ([]*domain.Subject, error) {
 	var subjects []*domain.Subject
 
 	for rows.Next() {
-		var subject domain.Subject
-		err := rows.Scan(
-			&subject.ID,
-			&subject.ProfessorID,
-			&subject.Name,
-			&subject.FullName,
-			&subject.Available,
-		)
+		subj, err := deserializeSubject(rows)
 		if err != nil {
 			return nil, err
 		}
-		subjects = append(subjects, &subject)
+		subjects = append(subjects, subj)
 	}
 	return subjects, nil
 }
 
-func serializeSubject(row *sql.Row) (*domain.Subject, error) {
+func deserializeSubject(row sqlite.RowScanner) (*domain.Subject, error) {
 	var subj domain.Subject
 	err := row.Scan(
 		&subj.ID,
@@ -79,5 +64,8 @@ func serializeSubject(row *sql.Row) (*domain.Subject, error) {
 		&subj.FullName,
 		&subj.Available,
 	)
-	return &subj, err
+	if err != nil {
+		return nil, err
+	}
+	return &subj, nil
 }

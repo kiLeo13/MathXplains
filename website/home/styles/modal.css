@@ -6,43 +6,44 @@
 
 textarea {
   resize: vertical;
-  height: 10vh;
+  height: 8vh;
+  min-height: 4vh;
   max-height: 20vh;
   outline: none;
 }
 
-.form-wrapper {
+#form-wrapper {
   display: flex;
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 500;
+  z-index: 1000;
 }
 
 #appointment-form {
   position: relative;
   height: fit-content;
-  padding: 4vh 0 18vh 0;
+  padding: 4vh 0 8vh 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 62vh;
+  width: 60vh;
   margin: auto;
   background-color: oklab(0.321088 -0.000220731 -0.00934622);
   border-radius: 1vh;
   overflow: hidden;
-  z-index: 1000;
+  z-index: 200;
 }
 
-.form-close-button {
+.close-modal-icon-container {
   position: absolute;
   color: rgb(110, 110, 110);
   inset: 1vh 1vh auto auto;
   cursor: pointer;
 }
 
-.form-close-button:hover {
+.close-modal-icon-container:hover {
   color: rgb(130, 130, 130);
 }
 
@@ -57,6 +58,7 @@ textarea {
   flex-direction: column;
   gap: 3vh;
   width: 80%;
+  margin-bottom: 20px;
 }
 
 .form-field {
@@ -91,7 +93,7 @@ textarea {
   filter: invert() brightness(70%);
 }
 
-.form-panel-io {
+#form-panel-io {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -130,7 +132,8 @@ textarea {
   justify-content: space-between;
   align-items: center;
   background-color: oklab(0.281088 -0.000220731 -0.00934622);
-  padding: 2vh;
+  height: 8vh;
+  padding: 0 2vh 0 1vh;
 }
 
 .buttons-row button {

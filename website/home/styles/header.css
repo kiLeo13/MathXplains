@@ -1,6 +1,5 @@
 header {
   position: fixed;
-  z-index: 100;
   display: flex;
   background-color: oklab(0.301088 -0.000220731 -0.00934622);
   border-bottom: solid 1px oklab(0.421088 -0.000220731 -0.00934622);
@@ -8,7 +7,14 @@ header {
   align-items: center;
   inset: 0;
   padding: 0 8px 0 8px;
-  height: 40px;
+  height: 45px;
+  z-index: 100;
+}
+
+@media (max-width: 650px) {
+  header {
+    height: 60px;
+  }
 }
 
 .logo-image-container {

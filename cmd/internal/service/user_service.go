@@ -8,12 +8,12 @@ import (
 	identity "github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
 	"regexp"
 	"strings"
-	"time"
 )
 
 const (
 	emailPattern            = `[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$`
 	passwordSpecialsPattern = `[@$!%*?&\-_]`
+	passwordNumericPattern  = `\d`
 
 	nameMinLength = 3
 	nameMaxLength = 64
@@ -22,17 +22,20 @@ const (
 	emailMaxLength = 128
 
 	passwordMinLength = 8
-	passwordMaxLength = 128
+	passwordMaxLength = 256
 )
 
 type UserDTO struct {
-	ID            string  `json:"id"`
-	Name          string  `json:"name"`
-	IsAdmin       bool    `json:"is_admin"`
-	EmailVerified bool    `json:"email_verified"`
-	VerifiedAt    *string `json:"verified_at"`
-	CreatedAt     string  `json:"created_at"`
-	UpdatedAt     string  `json:"updated_at"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	IsAdmin   bool   `json:"is_admin"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+}
+
+type DeleteUserDTO struct {
+	AccessToken string `json:"access_token"`
+	ID          string
 }
 
 func GetAllUsers() ([]*UserDTO, *APIError) {
@@ -69,8 +72,7 @@ func CreateUser(user *cognito.User) *APIError {
 
 	sub, err := cogClient.SignUp(user)
 	if err != nil {
-		var usernameExistsException *identity.UsernameExistsException
-		if errors.As(err, &usernameExistsException) {
+		if errors.Is(err, err.(*identity.UsernameExistsException)) {
 			return ErrorUserExists
 		} else {
 			fmt.Println(err)
@@ -78,12 +80,15 @@ func CreateUser(user *cognito.User) *APIError {
 		}
 	}
 
-	now := time.Now()
-	err = userRepo.Save(
-		sub,
-		strings.TrimSpace(user.Name),
-		now.Unix(),
-	)
+	now := NowUTC()
+	newUser := &domain.User{
+		ID:        sub,
+		Name:      user.Name,
+		Admin:     false,
+		CreatedAt: now,
+		UpdatedAt: now,
+	}
+	err = userRepo.Save(newUser)
 	if err != nil {
 		return ErrorInternalServer
 	}
@@ -109,11 +114,11 @@ func SignIn(u *cognito.UserLogin) (*cognito.AuthCreate, *APIError) {
 	return auth, nil
 }
 
-func RefreshToken(token string) (string, *APIError) {
+func RefreshToken(token string) (*cognito.TokenRefreshOut, *APIError) {
 	cogClient := cognito.Client
 	auth, err := cogClient.RefreshToken(token)
 	if err != nil {
-		return "", NewError(400, err.Error())
+		return nil, NewError(400, err.Error())
 	}
 	return auth, nil
 }
@@ -128,17 +133,54 @@ func CreateConfirmation(u *cognito.UserConfirmation) *APIError {
 	return nil
 }
 
+func ResendConfirmation(u *cognito.UserConfirmation) *APIError {
+	cogClient := cognito.Client
+
+	if err := checkEmail(u.Email); err != nil {
+		return err
+	}
+
+	err := cogClient.ResendConfirmation(u)
+	if err != nil {
+		return NewError(400, err.Error())
+	}
+	return nil
+}
+
 func GetUserById(sub string) (*UserDTO, *APIError) {
-	user, found, err := userRepo.FindById(sub)
+	user, err := userRepo.FindById(sub)
 	if err != nil {
 		fmt.Println(err)
 		return nil, ErrorInternalServer
 	}
 
-	if !found {
+	if user == nil {
 		return nil, ErrorUserNotFound
 	}
 	return toUserDTO(user), nil
+}
+
+// DeleteUserByID TODO: Improve error handling
+func DeleteUserByID(du *DeleteUserDTO) *APIError {
+	cogClient := cognito.Client
+	user, err := userRepo.FindById(du.ID)
+	if err != nil {
+		fmt.Println(err)
+		return ErrorInternalServer
+	}
+	err = cogClient.DeleteUser(du.AccessToken)
+	if err != nil {
+		return NewError(400, err.Error())
+	}
+
+	if user != nil {
+		err = userRepo.DeleteByID(user.ID)
+		if err != nil {
+			fmt.Println(err)
+			return ErrorInternalServer
+		}
+	}
+	return nil
 }
 
 func IsAdmin(userId string) bool {
@@ -151,27 +193,21 @@ func IsAdmin(userId string) bool {
 }
 
 func toUserDTO(u *domain.User) *UserDTO {
-	var verifiedAt *string
-	if u.VerifiedAt != nil {
-		form := FormatEpoch(*u.VerifiedAt)
-		verifiedAt = &form
-	} else {
-		verifiedAt = nil
-	}
-
 	return &UserDTO{
-		ID:            u.ID,
-		Name:          u.Name,
-		IsAdmin:       u.Admin,
-		EmailVerified: u.EmailVerified,
-		VerifiedAt:    verifiedAt,
-		CreatedAt:     FormatEpoch(u.CreatedAt),
-		UpdatedAt:     FormatEpoch(u.UpdatedAt),
+		ID:        u.ID,
+		Name:      u.Name,
+		IsAdmin:   u.Admin,
+		CreatedAt: FormatEpoch(u.CreatedAt),
+		UpdatedAt: FormatEpoch(u.UpdatedAt),
 	}
 }
 
 func checkName(name string) *APIError {
 	length := len(name)
+	if length == 0 {
+		return ErrorParamNotProvided("name")
+	}
+
 	if length < nameMinLength || length > nameMaxLength {
 		return ErrorInvalidNameRange
 	}
@@ -180,19 +216,28 @@ func checkName(name string) *APIError {
 
 func checkEmail(email string) *APIError {
 	length := len(email)
+	if length == 0 {
+		return ErrorParamNotProvided("email")
+	}
+
 	if length < emailMinLength || length > emailMaxLength {
 		return ErrorInvalidEmailRange
 	}
 
 	matched, err := regexp.MatchString(emailPattern, email)
 	if err != nil || !matched {
-		return ErrorInvalidEmailPattern
+		return ErrorInvalidPattern("email")
 	}
 	return nil
 }
 
 func checkPassword(password string) *APIError {
-	if len(password) < passwordMinLength || len(password) > passwordMaxLength {
+	length := len(password)
+	if length == 0 {
+		return ErrorParamNotProvided("password")
+	}
+
+	if length < passwordMinLength || length > passwordMaxLength {
 		return ErrorInvalidPasswordRange
 	}
 
@@ -200,8 +245,11 @@ func checkPassword(password string) *APIError {
 		return ErrorPasswordCase
 	}
 
-	matched, err := regexp.MatchString(passwordSpecialsPattern, password)
-	if err != nil || !matched {
+	if matches, _ := regexp.MatchString(passwordNumericPattern, password); !matches {
+		return ErrorPasswordNumbers
+	}
+
+	if matches, _ := regexp.MatchString(passwordSpecialsPattern, password); !matches {
 		return ErrorPasswordSpecialChar
 	}
 	return nil

@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+type RowScanner interface {
+	Scan(dest ...any) error
+}
+
 func Init() (*sql.DB, error) {
 	conn, err := newConnection()
 	if err != nil {
@@ -42,9 +46,9 @@ func getTables() []string {
     	  id TEXT PRIMARY KEY,
     	  name TEXT NOT NULL,
     	  admin INTEGER NOT NULL DEFAULT 0,
-		  email_verified INTEGER NOT NULL DEFAULT 0,
     	  created_at BIGINT NOT NULL,
-    	  updated_at BIGINT NOT NULL
+    	  updated_at BIGINT NOT NULL,
+    	  FOREIGN KEY (classroom_id) REFERENCES classrooms(id)
 		)`,
 
 		`professors (
@@ -75,6 +79,7 @@ func getTables() []string {
 		  scheduled_at BIGINT NOT NULL,
     	  created_at BIGINT NOT NULL,
 		  updated_at BIGINT NOT NULL,
+		  active INTEGER NOT NULL DEFAULT 1,
     	  FOREIGN KEY(user_id) REFERENCES users(id),
     	  FOREIGN KEY(subject_id) REFERENCES subjects(id),
     	  FOREIGN KEY(professor_id) REFERENCES professors(id)

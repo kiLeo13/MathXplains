@@ -3,13 +3,11 @@ module MathXplains
 go 1.22
 
 require (
-	github.com/aws/aws-sdk-go v1.54.20
+	github.com/aws/aws-sdk-go v1.55.5
 	github.com/joho/godotenv v1.5.1
 )
 
 require github.com/mattn/go-sqlite3 v1.14.22
-
-require github.com/robfig/cron v1.2.0 // indirect
 
 require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect

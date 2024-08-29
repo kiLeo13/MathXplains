@@ -1,0 +1,130 @@
+.appointment {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(70, 75, 80);
+  min-height: 120px;
+  transition: transform 0.1s ease;
+  will-change: transform;
+}
+
+.appointment-heading-title {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 721px) {
+  .appointment:hover {
+    background-color: oklab(0.391088 -0.000220731 -0.00934622);
+  }
+}
+
+.appointment.deleting {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.appt-heading {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  padding: 10px;
+}
+
+.left-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.left-heading .bottom {
+  border-radius: 4px;
+  padding: 0px 2px 1px 2px;
+  transition: background-color 0.2s;
+}
+
+.left-heading .bottom:hover {
+  background-color: rgb(58, 62, 65);
+}
+
+.appt-title {
+  font-weight: 500;
+  color: white;
+}
+
+.appointment-description-container {
+  padding: 2px 4px 6px 10px;
+}
+
+.appointment-description-content {
+  font-weight: 400;
+  color: rgb(192, 192, 192);
+  font-size: 13px;
+}
+
+.appt-specifications {
+  color: rgb(139, 139, 139);
+  font-size: 13px;
+  width: fit-content;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.right-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-appt-button {
+  background-color: oklab(0.301088 -0.000220731 -0.00934622);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-appt-button:hover {
+  background-color: oklab(0.331088 -0.000220731 -0.00934622);
+}
+
+.delete-appt-button svg {
+  width: 70%;
+  fill: rgb(253, 68, 68);
+}
+
+@media (max-width: 560px) {
+  .delete-appt-button {
+    display: none;
+  }
+}
+
+.appt-timestamp {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(146, 146, 146);
+}
+
+/* Appointment Status */
+.appt-status {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+}
+
+.appt-status-active {
+  background-color: green;
+  box-shadow: 0 1px 5px green;
+}
+
+.appt-status-not-active {
+  background-color: rgb(130, 80, 80);
+  box-shadow: 0 1px 5px rgb(130, 80, 80);
+}

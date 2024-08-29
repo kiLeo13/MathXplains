@@ -1,6 +1,7 @@
 package service
 
 import (
+	domain "MathXplains/internal/domain/entity"
 	"fmt"
 )
 
@@ -12,22 +13,26 @@ type ProfessorDTO struct {
 	Known    bool    `json:"known"`
 }
 
-func GetProfessors(knownOnly bool) []*ProfessorDTO {
+func GetProfessors(knownOnly bool) ([]*ProfessorDTO, *APIError) {
 	professors, err := professorRepo.FindAll(knownOnly)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return nil, ErrorInternalServer
 	}
 
 	var professorList []*ProfessorDTO
 	for _, p := range professors {
-		professorList = append(professorList, &ProfessorDTO{
-			ID:       p.ID,
-			Name:     p.Name,
-			FullName: p.FullName,
-			Nick:     p.Nick,
-			Known:    p.Known == 1,
-		})
+		professorList = append(professorList, toProfessorDTO(p))
 	}
-	return professorList
+	return professorList, nil
+}
+
+func toProfessorDTO(p *domain.Professor) *ProfessorDTO {
+	return &ProfessorDTO{
+		ID:       p.ID,
+		Name:     p.Name,
+		FullName: p.FullName,
+		Nick:     p.Nick,
+		Known:    p.Known == 1,
+	}
 }

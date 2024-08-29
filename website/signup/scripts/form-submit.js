@@ -24,9 +24,10 @@ $(() => {
       password: password,
     })
 
-    if (resp.isOk) {
-      $()
-      resp.error
+    if (resp.error) {
+      displayError(resp.error)
+    } else {
+      
     }
   })
 })
@@ -36,7 +37,6 @@ function isDisabled() {
 }
 
 async function requestCreation(body) {
-
   const resp = await fetch(`${location.origin}/api/users`, {
     method: 'POST',
     body: body,
@@ -47,7 +47,6 @@ async function requestCreation(body) {
 }
 
 function displayError(msg) {
-
   $('#error-message').css({
     "opacity": 1
   }).val(msg)

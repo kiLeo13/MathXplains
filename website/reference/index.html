@@ -8,19 +8,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/generic.css">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="shortcut icon" href="assets/icons/favicon.png" type="image/x-icon">
-  <meta property="og:title" content="MathXplains API" />
-  <meta property="og:description" content="Get access to all the features in the MathXplains REST/HTTP API." />
-  <meta property="og:color" content="#345beb" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mathxplains/index.html" />
-  <meta property="og:image" content="https://cdn.mathxplains/icons/favicon.png" />
-  <meta name="theme-color" content="#0093a9" />
+  <link rel="shortcut icon" href="https://cdn.mathxplains.com.br/icons/favicon.png" type="image/x-icon">
+  <meta property="og:title" content="MathXplains API">
+  <meta property="og:description" content="Get access to all the features in the MathXplains REST/HTTP API.">
+  <meta property="og:color" content="#345beb">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mathxplains.com.br">
+  <meta property="og:image" content="https://cdn.mathxplains/icons/favicon.png">
+  <meta name="theme-color" content="#0093a9">
   <title>MathXplains API - Reference</title>
 </head>
 <body>
   <header>
-    <img draggable="false" src="assets/mathxplains-logo.png">
+    <img draggable="false" src="https://cdn.mathxplains.com.br/mathxplains-logo.png">
   </header>
 
   <div class="wrapper">
@@ -282,11 +282,11 @@
           </div>
         </div>
       </div>
-      <div class="endpoints sales">
-        <h3>Sales</h3>
+      <div class="endpoints statistics">
+        <h3>Statistics</h3>
         <div class="endpoint">
-          <p class="title">Get Sales Count</p>
-          <p class="description">Returns the amount of products sold.</p>
+          <p class="title">Get Statistics</p>
+          <p class="description">Returns a <a href="#statistic-struct">statistic</a> object.</p>
 
           <div class="info-container">
             <div class="info-icon">
@@ -305,34 +305,20 @@
 
           <div class="endpoint-info">
             <span class="method get">GET</span>
-            <code class="api-route">&sol;sales</code>
-          </div>
-
-          <div class="endpoint-params">
-            <div class="response-body">
-              <h4>Response Body</h4>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>sales_count</td>
-                    <td>integer</td>
-                    <td>The amount of sold products.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <code class="api-route">&sol;statistics</code>
           </div>
         </div>
         <div class="endpoint">
-          <p class="title">Patch Count</p>
-          <p class="description">Returns the new amount of products sold.</p>
+          <p class="title">Patch Statistics</p>
+          <p class="description">Returns an updated <a href="#statistic-struct">statistic</a> object on success.</p>
+
+          <div class="limitations">
+            <span>Limitations</span>
+            <ul>
+              <li>Only one statistic can be updated per request.</li>
+              <li>For a <i>profit</i> patch, the <code>currency</code> field is ignored, leaving as <code>BRL</code> by default.</li>
+            </ul>
+          </div>
 
           <div class="warnings-container">
             <div class="warning-container">
@@ -350,10 +336,39 @@
               </span>
             </div>
           </div>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              To update the profit, provide <code>profit</code> as a value to the <code>name</code> field.
+            </span>
+          </div>
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              To update the amount of sold items, provide <code>sold_items</code> as a value to the <code>name</code> field.
+            </span>
+          </div>
           
           <div class="endpoint-info">
             <span class="method patch">PATCH</span>
-            <code class="api-route">&sol;sales</code>
+            <code class="api-route">&sol;statistics</code>
           </div>
           
           <div class="endpoint-params">
@@ -369,28 +384,19 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>amount<span class="required-mark">*</span></td>
-                    <td>integer</td>
-                    <td>The amount to modify &lpar;negative values will subtract&rpar;.</td>
+                    <td>name<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The name of the service&sol;field being updated.</td>
                   </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="response-body">
-              <h4>Response Body</h4>
-              <table>
-                <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
+                    <td>currency</td>
+                    <td>string</td>
+                    <td>The currency used in this property.</td>
                   </tr>
-                </thead>
-                <tbody>
                   <tr>
-                    <td>sales_count</td>
-                    <td>integer</td>
-                    <td>The new amount of products sold.</td>
+                    <td>value<span class="required-mark">*</span></td>
+                    <td>float</td>
+                    <td>The value of this property.</td>
                   </tr>
                 </tbody>
               </table>
@@ -680,7 +686,7 @@
             <ul>
               <li><code>name</code> must be in range of <code>3</code> and <code>64</code> characters &lpar;inclusive&rpar;.</li>
               <li><code>email</code> must be in range of <code>6</code> and <code>128</code> characters &lpar;inclusive&rpar;. Regex: <code>&lbrack;a-z0-9&period;_%+\-&rbrack;+@[a-z0-9.\-]+\.[a-z]{2,}&dollar;</code>.</li>
-              <li><code>password</code> must be in range of <code>8</code> and <code>128</code> characters &lpar;inclusive&rpar;, have at least one lower and uppercase character and one number.</li>
+              <li><code>password</code> must be in range of <code>8</code> and <code>256</code> characters &lpar;inclusive&rpar;, have at least one lower and uppercase character, one special character and one number.</li>
             </ul>
           </div>
 
@@ -1114,9 +1120,107 @@
           </tbody>
         </table>
       </div>
-      <div class="end-docs">
-        <p>That&apos;s it&excl; You have read it all &colon;&rpar;</p>
+      <div class="entity statistic">
+        <h3 id="statistic-struct">Statistic</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>sold_items</td>
+              <td>integer</td>
+              <td>The amount of items sold in the project.</td>
+            </tr>
+            <tr>
+              <td>profit</td>
+              <td>A <a href="#profit-struct">profit</a> object.</td>
+              <td>The total profit of the project.</td>
+            </tr>
+            <tr>
+              <td>expenses</td>
+              <td>Array of <a href="#expense-struct">expense</a> objects.</td>
+              <td>The list of expenses.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div class="entity profit">
+        <h3 id="profit-struct">Profit</h3>
+
+        <div class="info-container">
+          <div class="info-icon">
+            <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+              fill="none" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+              <path fill="currentColor" fill-rule="evenodd"
+                d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                clip-rule="evenodd" class=""></path>
+            </svg>
+          </div>
+          <span>
+            For this entity, the <code>currency</code> field will always return <code>BRL</code>.
+          </span>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>value</td>
+              <td>float</td>
+              <td>The amount of money earned in the project.</td>
+            </tr>
+            <tr>
+              <td>currency</td>
+              <td>string</td>
+              <td>The currency used &lpar;for future conversions&rpar;.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="entity expense">
+        <h3 id="expense-struct">Expense</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>The unique name of this property.</td>
+            </tr>
+            <tr>
+              <td>currency</td>
+              <td>string</td>
+              <td>The currency used &lpar;for future conversions&rpar;.</td>
+            </tr>
+            <tr>
+              <td>value</td>
+              <td>float</td>
+              <td>The amount of money spent on this item.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="end-docs">
+      <p>That&apos;s it&excl; You have read it all &colon;&rpar;</p>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

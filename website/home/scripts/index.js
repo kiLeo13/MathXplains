@@ -1,21 +1,28 @@
-import { fetchSelfUser } from './resources/resources.js'
-import { loadAppointments } from './appointments.js'
+import { showModal } from './resources/modals.js'
+import { fetchSelfUser, updateCache } from './resources/resources.js'
+import { loadAppointments } from './resources/appointments.js'
+import { USER_URL } from './http/routes.js'
 
 $(async () => {
-  // updateUsername()
+  updateUsername()
+  await updateCache()
   loadAppointments()
+
+  $('#new-appointment-button').on('click', () => {
+    showModal()
+  })
 })
 
 async function updateUsername() {
-  const self = fetchSelfUser()
+  const self = await fetchSelfUser()
 
   if (self.name) {
     setUsername(self.name)
   } else {
-    location.href = `${location.origin}/login`
+    location.href = USER_URL + '/login'
   }
 }
 
 function setUsername(name) {
-  $('#user-name').val(name)
+  $('#username').text(name)
 }

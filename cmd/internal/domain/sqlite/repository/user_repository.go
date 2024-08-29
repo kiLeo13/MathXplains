@@ -2,6 +2,7 @@ package repository
 
 import (
 	"MathXplains/internal/domain/entity"
+	"MathXplains/internal/domain/sqlite"
 	"database/sql"
 	"errors"
 )
@@ -14,10 +15,13 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{db}
 }
 
-func (u *UserRepository) Save(id, name string, timestamp int64) error {
+func (u *UserRepository) Save(user *domain.User) error {
 	_, err := u.db.Exec(`INSERT INTO users (id, name, admin, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?)`, id, name, 0, timestamp, timestamp)
-	return err
+        VALUES (?, ?, ?, ?, ?)`, user.ID, user.Name, user.Admin, user.CreatedAt, user.UpdatedAt)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (u *UserRepository) IsAdmin(userId string) (bool, error) {
@@ -28,13 +32,7 @@ func (u *UserRepository) IsAdmin(userId string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-
 	return value == 1, nil
-}
-
-func (u *UserRepository) Verify(userId string) error {
-	_, err := u.db.Exec("UPDATE users SET email_verified = 1 WHERE id = ?", userId)
-	return err
 }
 
 func (u *UserRepository) FindAll() ([]*domain.User, error) {
@@ -44,54 +42,59 @@ func (u *UserRepository) FindAll() ([]*domain.User, error) {
 	}
 	defer res.Close()
 
-	return serializeUsers(res)
+	return deserializeUsers(res)
 }
 
-func (u *UserRepository) FindById(id string) (*domain.User, bool, error) {
+// FindById searches the database using the indexed id column.
+//
+// Returns a nil pointer and a nil error if no users are found.
+func (u *UserRepository) FindById(id string) (*domain.User, error) {
 	res := u.db.QueryRow("SELECT * FROM users WHERE id = ?", id)
 
-	user, err := serializeUser(res)
+	user, err := deserializeUser(res)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, false, nil
+			return nil, nil
 		} else {
-			return nil, false, err
+			return nil, err
 		}
 	}
-	return user, true, nil
+	return user, nil
 }
 
-func serializeUsers(rows *sql.Rows) ([]*domain.User, error) {
+func (u *UserRepository) DeleteByID(id string) error {
+	_, err := u.db.Exec("DELETE FROM users WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func deserializeUsers(rows *sql.Rows) ([]*domain.User, error) {
 	var users []*domain.User
 
 	for rows.Next() {
-		var user domain.User
-		err := rows.Scan(
-			&user.ID,
-			&user.Name,
-			&user.Admin,
-			&user.EmailVerified,
-			&user.CreatedAt,
-			&user.UpdatedAt,
-		)
+		user, err := deserializeUser(rows)
 		if err != nil {
 			return nil, err
 		}
-		users = append(users, &user)
+		users = append(users, user)
 	}
 	return users, nil
 }
 
-func serializeUser(row *sql.Row) (*domain.User, error) {
+func deserializeUser(row sqlite.RowScanner) (*domain.User, error) {
 	var user domain.User
 
 	err := row.Scan(
 		&user.ID,
 		&user.Name,
 		&user.Admin,
-		&user.EmailVerified,
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	)
-	return &user, err
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
