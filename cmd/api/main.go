@@ -6,6 +6,7 @@ import (
 	cognito "MathXplains/internal/infrastructure/aws/cognito"
 	"MathXplains/internal/routes"
 	"MathXplains/internal/service"
+	"github.com/labstack/echo/v4/middleware"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -18,6 +19,7 @@ func main() {
 	}
 	cognito.NewCognitoClient(os.Getenv("COGNITO_CLIENT_ID"))
 	e := echo.New()
+	e.Use(middleware.CORS())
 
 	db, err := sqlite.Init()
 	if err != nil {

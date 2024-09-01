@@ -10,6 +10,11 @@ require (
 require github.com/mattn/go-sqlite3 v1.14.22
 
 require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	golang.org/x/time v0.5.0 // indirect
+)
+
+require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/labstack/gommon v0.4.2 // indirect
