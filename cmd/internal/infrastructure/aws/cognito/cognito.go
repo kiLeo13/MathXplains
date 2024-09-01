@@ -109,8 +109,8 @@ type UserLogin struct {
 }
 
 type AuthCreate struct {
-	Token        string `json:"token"`
-	AccessToken  string `json:"access_token"`
+	IDToken     string `json:"id_token"`
+	AccessToken string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
@@ -151,7 +151,7 @@ func (c *cognitoClient) SignIn(user *UserLogin) (*AuthCreate, error) {
 		return nil, err
 	}
 	return &AuthCreate{
-		Token:        *result.AuthenticationResult.IdToken,
+		IDToken:      *result.AuthenticationResult.IdToken,
 		RefreshToken: *result.AuthenticationResult.RefreshToken,
 		AccessToken:  *result.AuthenticationResult.AccessToken,
 	}, nil
