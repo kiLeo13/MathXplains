@@ -10,11 +10,11 @@ $(() => {
     const email = $("#email").val()
 
     if (!email) {
-      alert('Email é obrigatório!')
+      showError('Email é obrigatório!')
       return
     }
 
-    waitCooldown()
+    sendResendCooldown()
     handleResend(email)
   })
 })
@@ -27,7 +27,9 @@ async function handleResend(email) {
       "Content-Type": "application/json"
     }
   })
-  const json = await resp.json()
-
-  if (!resp.ok) showError(json.error)
+  
+  if (!resp.ok) {
+    const json = await resp.json()
+    showError(json.message)
+  }
 }

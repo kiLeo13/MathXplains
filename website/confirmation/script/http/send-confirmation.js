@@ -13,7 +13,6 @@ $(() => {
     const code = $('#code').val()
 
     setButtonLoading(true)
-
     handleRequest({
       email: email,
       code: code
@@ -30,8 +29,12 @@ async function handleRequest(credentials) {
     },
     body: JSON.stringify(credentials)
   })
-  const json = await resp.json()
-
-  if (resp.ok) location.href = location.origin + '/login'
-  else showError(json.error)
+  setButtonLoading(false)
+  
+  if (resp.ok) {
+    location.href = location.origin + '/login'
+  } else {
+    const json = await resp.json()
+    showError(json.message)
+  }
 }

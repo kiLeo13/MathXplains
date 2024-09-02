@@ -37,7 +37,9 @@ export function showError(msg) {
 }
 
 export function hideError() {
-  $('#error-message').css('opacity', 0)
+  $('#error-message')
+    .css({"opacity": 0})
+    .val('')
 }
 
 export function setSubmitButtonClickable(flag) {
@@ -52,7 +54,7 @@ export function sendResendCooldown(millis = 30000) {
   setResendButtonClickable(false)
   setTimeout(() => {
     setResendButtonClickable(true)
-  }, 30000)
+  }, millis)
 }
 
 function isEnabled(name) {

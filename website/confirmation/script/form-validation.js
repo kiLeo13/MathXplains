@@ -2,6 +2,6 @@ import { sendResendCooldown, setSubmitButtonClickable, validateSubmitButton } fr
 
 $(() => {
   setSubmitButtonClickable(false)
-  sendResendCooldown(15000)
+  sendResendCooldown(5000)
   $('.form-input').on('keyup', validateSubmitButton)
 })
