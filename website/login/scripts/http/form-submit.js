@@ -1,4 +1,5 @@
-import { setButtonLoading, isDisabled } from "./buttons.js"
+import { setButtonLoading, isDisabled } from "../buttons.js"
+import ROUTES from "./routes.js"
 
 $(() => {
   const form = $('#login-form')
@@ -21,7 +22,7 @@ $(() => {
 })
 
 async function handleRequest(credentials) {
-  const resp = await fetch(`${location.origin}/api/users/login`, {
+  const resp = await fetch(ROUTES.CREATE_LOGIN, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -32,13 +33,16 @@ async function handleRequest(credentials) {
     })
   })
   const json = await resp.json()
+  
+  if (resp.ok) {
+    localStorage.setItem('accessToken', json.access_token)
+    localStorage.setItem('idToken', json.id_token)
+    localStorage.setItem('refreshToken', json.refresh_token)
 
-  if (json.token) {
-    localStorage.setItem('authToken', json.token)
-    location.href = `${location.origin}/home`
+    location.href = location.origin
   } else {
     setButtonLoading(false)
-    displayError(json.error)
+    displayError(json.message)
   }
 }
 
