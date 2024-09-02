@@ -19,6 +19,7 @@ type User struct {
 type CognitoInterface interface {
 	SignUp(user *User) (string, error)
 	SignIn(user *UserLogin) (*AuthCreate, error)
+	SignOut(accessToken string) error
 	ConfirmAccount(user *UserConfirmation) error
 	DeleteUser(accessToken string) error
 	ResendConfirmation(user *UserConfirmation) error
@@ -42,7 +43,6 @@ func NewCognitoClient(appClientId string) {
 	}
 
 	client := cognito.New(sess)
-
 	Client = &cognitoClient{
 		cognitoClient: client,
 		appClientId:   appClientId,
@@ -71,6 +71,18 @@ func (c *cognitoClient) SignUp(user *User) (sub string, err error) {
 		return "", err
 	}
 	return *out.UserSub, nil
+}
+
+func (c *cognitoClient) SignOut(accessToken string) error {
+	logout := &cognito.GlobalSignOutInput{
+		AccessToken: aws.String(accessToken),
+	}
+	_, err := c.cognitoClient.GlobalSignOut(logout)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
 }
 
 type UserConfirmation struct {
@@ -109,8 +121,8 @@ type UserLogin struct {
 }
 
 type AuthCreate struct {
-	IDToken     string `json:"id_token"`
-	AccessToken string `json:"access_token"`
+	IDToken      string `json:"id_token"`
+	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 

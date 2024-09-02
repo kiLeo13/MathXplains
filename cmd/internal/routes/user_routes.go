@@ -35,7 +35,7 @@ func CreateUser(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-func LoginUser(c echo.Context) error {
+func LogInUser(c echo.Context) error {
 	req := cognito.UserLogin{}
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
@@ -48,17 +48,35 @@ func LoginUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, create)
 }
 
+func LogOutUser(c echo.Context) error {
+	body := make(map[string]string)
+	if err := c.Bind(&body); err != nil {
+		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
+	}
+
+	token := body["access_token"]
+	if token == "" {
+		return c.JSON(http.StatusBadRequest, service.ErrorParamNotProvided("access_token"))
+	}
+
+	err := service.SignOut(token)
+	if err != nil {
+		return c.JSON(err.Status, err)
+	}
+	return c.NoContent(http.StatusOK)
+}
+
 func RefreshToken(c echo.Context) error {
 	req := make(map[string]string)
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
 	}
-	token, ok := req["refresh_token"]
+	refresh, ok := req["refresh_token"]
 	if !ok {
 		return c.JSON(http.StatusBadRequest, service.ErrorParamNotProvided("refresh_token"))
 	}
 
-	tokens, err := service.RefreshToken(token)
+	tokens, err := service.RefreshToken(refresh)
 	if err != nil {
 		return c.JSON(err.Status, err)
 	}

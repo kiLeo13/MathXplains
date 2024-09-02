@@ -114,9 +114,18 @@ func SignIn(u *cognito.UserLogin) (*cognito.AuthCreate, *APIError) {
 	return auth, nil
 }
 
-func RefreshToken(token string) (*cognito.TokenRefreshOut, *APIError) {
+func SignOut(accessToken string) *APIError {
 	cogClient := cognito.Client
-	auth, err := cogClient.RefreshToken(token)
+	err := cogClient.SignOut(accessToken)
+	if err != nil {
+		return NewError(400, err.Error())
+	}
+	return nil
+}
+
+func RefreshToken(refreshToken string) (*cognito.TokenRefreshOut, *APIError) {
+	cogClient := cognito.Client
+	auth, err := cogClient.RefreshToken(refreshToken)
 	if err != nil {
 		return nil, NewError(400, err.Error())
 	}
