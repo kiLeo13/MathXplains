@@ -1,7 +1,9 @@
-export function registerDeletion() {
+import { deleteAppointment } from "./delete-appointment.js"
+
+export function registerSwipeDeletion() {
   $('.appointment').each((_, e) => {
     const appt = $(e)
-    let startX, currentX, isSwiping = false
+    let startX, currentX, isSwiping = false // Fix positioning on Desktop
     
     if (!isDeletable(appt)) return
 
@@ -31,7 +33,7 @@ export function registerDeletion() {
         appt.addClass('deleting')
 
         setTimeout(() => {
-          appt.remove()
+          deleteAppointment()
         }, 300)
 
       } else {

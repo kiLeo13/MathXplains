@@ -1,3 +1,3 @@
-export function deleteAppointment(e) {
-  
+export function deleteAppointment(e = {}) {
+
 }

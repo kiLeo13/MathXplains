@@ -17,25 +17,26 @@ export async function onSubmit(e) {
     return
   }
 
-  setSendingUI()
+  setSendingUI(true)
   const sent = await send({
-    "subject": subj,
+    "subject_id": parseInt(subj),
     "topic": topic,
     "description": desc,
     "scheduled_at": date,
   })
+  setSendingUI(false)
 
   if (sent.success) {
     closeModal()
     loadAppointments()
   } else {
-    showError(sent.error)
+    showError(sent.message)
   }
 }
 
-function setSendingUI() {
-  setSaveLoading()
-  $('.loader-icon').css("opacity", 1)
+function setSendingUI(flag) {
+  setSaveLoading(flag)
+  $('.loader-icon').css("opacity", flag ? 1 : 0)
 }
 
 function isFuture(date) {

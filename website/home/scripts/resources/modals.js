@@ -44,7 +44,7 @@ export async function showModal() {
           </div>
           <div class="description-container">
             <div class="form-field">
-              <label for="form-desc">Description<span class="required-mark">*</span></label>
+              <label for="form-desc">Descrição<span class="required-mark">*</span></label>
               <textarea id="form-desc" class="form-input" required minlength="10" maxlength="1000"></textarea>
             </div>
           </div>

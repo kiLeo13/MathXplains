@@ -4,7 +4,7 @@ import { loadAppointments } from './resources/appointments.js'
 import { USER_URL } from './http/routes.js'
 
 $(async () => {
-  updateUsername()
+  await updateUsername()
   await updateCache()
   loadAppointments()
 

@@ -1,6 +1,23 @@
 import { deleteAppointment } from '../modal/delete-appointment.js'
-import { registerDeletion } from '../modal/swipe-deletion.js'
+import { registerSwipeDeletion } from '../modal/swipe-deletion.js'
 import { fetchAppointments, getSubjectById, getProfessorById } from './resources.js'
+
+$(() => {
+  // Different screen sizes require some adjustments,
+  // for mobile devices, the Appointments Wrapper class position
+  // should always be absolute with 0 inset, desktop devices
+  // on the other hand, must be always centered (static)
+  onresize = () => {
+    const width = window.innerWidth
+    const apptsWrapper = $('.appointments-wrapper')
+
+    if (width > 720) {
+      apptsWrapper.css({"position": "static"})
+    } else {
+      apptsWrapper.css({"position": "absolute"})
+    }
+  }
+})
 
 /**
  * Updates all the appointments on screen, this function will always make
@@ -33,7 +50,7 @@ function displayCount(active, max) {
  * {@link setDisplayStyle}.
  * 
  * @param {any} appts An array of appointment objects.
- */
+*/
 async function setItems(appts) {
   clearSection()
 
@@ -51,7 +68,7 @@ async function setItems(appts) {
 
   $('.items-container').append(html)
   $(`.delete-appt-button`).on('click', deleteAppointment)
-  registerDeletion()
+  registerSwipeDeletion()
 }
 
 function setDisplayStyle(empty = true) {
@@ -59,15 +76,12 @@ function setDisplayStyle(empty = true) {
 
   const emptyImage = $('.empty-image')
   const itemsContainer = $('.items-container')
-  const apptsWrapper = $('.appointments-wrapper')
 
   if (empty) {
     emptyImage.show()
     itemsContainer.css("align-items", "center")
-    apptsWrapper.css("position", "absolute")
   } else {
     emptyImage.hide()
-    apptsWrapper.css({"position": "absolute"})
     itemsContainer.css({
       "align-items": "stretch",
       "justify-content": "start"
@@ -156,8 +170,4 @@ function formatTimestamp(iso) {
   const minutes = pad(date.getMinutes())
 
   return `${day}/${month}/${year} - ${hours}:${minutes}`
-}
-
-function toEpochUTC(time) {
-  return Math.floor(new Date(time).getTime() / 1000)
 }
