@@ -1,9 +1,10 @@
+import ROUTES from './http/routes.js'
+
 $(() => {
-  const form = $('form')
   setButtonClickable(false)
   $('.form-input').on('keyup', buttonValidationHandler)
 
-  form.on('submit', async (e) => {
+  $('form').on('submit', async (e) => {
     e.preventDefault()
 
     if (isDisabled()) return
@@ -13,22 +14,12 @@ $(() => {
     const password = $('#password').val()
 
     setButtonLoading(true)
-
-    setTimeout(() => {
-      setButtonLoading(false)
-    }, 3000)
-
-    const resp = await requestCreation({
+    hideError()
+    handleCreation({
       name: name,
       email: email,
       password: password,
     })
-
-    if (resp.error) {
-      displayError(resp.error)
-    } else {
-      
-    }
   })
 })
 
@@ -36,20 +27,50 @@ function isDisabled() {
   return $('#submit-button').css('cursor') === 'not-allowed'
 }
 
-async function requestCreation(body) {
-  const resp = await fetch(`${location.origin}/api/users`, {
-    method: 'POST',
-    body: body,
-    headers: { "Content-Type": "application/json" }
+async function handleCreation(body) {
+  const resp = await fetch(ROUTES.CREATE_USER, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
+  
+  if (resp.ok) {
+    loadEmailConfirmationPage(body.email)
+  } else {
+    const json = await resp.json()
 
-  return await resp.json()
+    displayError(json.message)
+    setButtonLoading(false)
+  }
+}
+
+async function loadEmailConfirmationPage(email) {
+  const url = '../../confirmation/index.html?e=' + encodeURI(email)
+  const resp = await fetch(url)
+
+  console.log(JSON.stringify(resp))
+
+  if (resp.ok) {
+    $('body').load(url)
+  
+    history.pushState(null, null, url)
+  } else {
+    location.href = url
+  }
 }
 
 function displayError(msg) {
   $('#error-message').css({
     "opacity": 1
-  }).val(msg)
+  }).text(msg)
+}
+
+function hideError() {
+  $('#error-message').css({
+    "opacity": 9
+  }).text('')
 }
 
 function buttonValidationHandler() {

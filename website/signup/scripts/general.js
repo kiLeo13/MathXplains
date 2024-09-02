@@ -1,7 +1,7 @@
 $(() => {
-    updatePasswordField()
+  updatePasswordField()
 
-    $('#login-redirect').on('click', () => {
-      location.href = location.origin + '/login'
-    })
+  $('#login-redirect').on('click', () => {
+    location.href = location.origin + '/login'
+  })
 })

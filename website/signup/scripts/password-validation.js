@@ -18,10 +18,6 @@ $(() => {
   })
 })
 
-function showPassword(flag) {
-
-}
-
 function updatePasswordField() {
   const password = $("#password").val()
 
