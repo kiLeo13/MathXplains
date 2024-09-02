@@ -150,7 +150,7 @@
         <h3>Professors</h3>
         <div class="endpoint">
           <p class="title">Get All Professors</p>
-          <p class="description">Returns all the existing <a href="#professor-struct">professors</a>.</p>
+          <p class="description">Returns all the existing <a href="#professor-struct" class="entity-reference">professors</a>.</p>
 
           <div class="info-container">
             <div class="info-icon">
@@ -173,7 +173,7 @@
           </div>
 
           <div class="endpoint-params">
-            <div>
+            <div class="query-params">
               <h4>Query Parameters</h4>
               <table>
                 <thead>
@@ -181,13 +181,15 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
+                    <th>Default</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>known</td>
                     <td>boolean</td>
-                    <td>Displays only known professors &lpar;default: <code>false</code>&rpar;.</td>
+                    <td>Displays only known professors.</td>
+                    <td>false</td>
                   </tr>
                 </tbody>
               </table>
@@ -205,7 +207,7 @@
                 <tbody>
                   <tr>
                     <td>professors</td>
-                    <td>Array of <a href="#professor-struct">professor</a> objects.</td>
+                    <td>Array of <a href="#professor-struct" class="entity-reference">professor</a> objects.</td>
                     <td>All the expected professors.</td>
                   </tr>
                 </tbody>
@@ -218,7 +220,7 @@
         <h3>Subjects</h3>
         <div class="endpoint">
           <p class="title">Get All Subjects</p>
-          <p class="description">Returns all the existing <a href="#subject-struct">subjects</a>.</p>
+          <p class="description">Returns all the existing <a href="#subject-struct" class="entity-reference">subjects</a>.</p>
 
           <div class="info-container">
             <div class="info-icon">
@@ -241,7 +243,7 @@
           </div>
 
           <div class="endpoint-params">
-            <div>
+            <div class="query-params">
               <h4>Query Parameters</h4>
               <table>
                 <thead>
@@ -249,13 +251,15 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
+                    <th>Default</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>available</td>
                     <td>boolean</td>
-                    <td>Displays only available subjects &lpar;default: <code>false</code>&rpar;.</td>
+                    <td>Displays only available subjects.</td>
+                    <td>false</td>
                   </tr>
                 </tbody>
               </table>
@@ -273,7 +277,7 @@
                 <tbody>
                   <tr>
                     <td>subjects</td>
-                    <td>Array of <a href="#subject-struct">subject</a> objects.</td>
+                    <td>Array of <a href="#subject-struct" class="entity-reference">subject</a> objects.</td>
                     <td>All the expected subjects.</td>
                   </tr>
                 </tbody>
@@ -282,43 +286,11 @@
           </div>
         </div>
       </div>
-      <div class="endpoints statistics">
-        <h3>Statistics</h3>
+      <div class="endpoints appointments">
+        <h3>Appointments</h3>
         <div class="endpoint">
-          <p class="title">Get Statistics</p>
-          <p class="description">Returns a <a href="#statistic-struct">statistic</a> object.</p>
-
-          <div class="info-container">
-            <div class="info-icon">
-              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
-                <path fill="currentColor" fill-rule="evenodd"
-                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
-                  clip-rule="evenodd" class=""></path>
-              </svg>
-            </div>
-            <span>
-              This endpoint does not require authentication.
-            </span>
-          </div>
-
-          <div class="endpoint-info">
-            <span class="method get">GET</span>
-            <code class="api-route">&sol;statistics</code>
-          </div>
-        </div>
-        <div class="endpoint">
-          <p class="title">Patch Statistics</p>
-          <p class="description">Returns an updated <a href="#statistic-struct">statistic</a> object on success.</p>
-
-          <div class="limitations">
-            <span>Limitations</span>
-            <ul>
-              <li>Only one statistic can be updated per request.</li>
-              <li>For a <i>profit</i> patch, the <code>currency</code> field is ignored, leaving as <code>BRL</code> by default.</li>
-            </ul>
-          </div>
+          <p class="title">Get All Appointments</p>
+          <p class="description">Returns all the existing <a href="#appointment-struct" class="entity-reference">appointments</a>.</p>
 
           <div class="warnings-container">
             <div class="warning-container">
@@ -332,83 +304,24 @@
                 </svg>
               </div>
               <span>
-                This endpoint is admin&dash;only.
+                The <code>all</code> query parameter is admin-only.
+              </span>
+            </div>
+            <div class="info-container">
+              <div class="info-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                    clip-rule="evenodd" class=""></path>
+                </svg>
+              </div>
+              <span>
+                If both <code>all</code> and <code>active</code> are provided, then <code>active</code> is ignored.
               </span>
             </div>
           </div>
-
-          <div class="info-container">
-            <div class="info-icon">
-              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
-                <path fill="currentColor" fill-rule="evenodd"
-                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
-                  clip-rule="evenodd" class=""></path>
-              </svg>
-            </div>
-            <span>
-              To update the profit, provide <code>profit</code> as a value to the <code>name</code> field.
-            </span>
-          </div>
-          <div class="info-container">
-            <div class="info-icon">
-              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
-                <path fill="currentColor" fill-rule="evenodd"
-                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
-                  clip-rule="evenodd" class=""></path>
-              </svg>
-            </div>
-            <span>
-              To update the amount of sold items, provide <code>sold_items</code> as a value to the <code>name</code> field.
-            </span>
-          </div>
-          
-          <div class="endpoint-info">
-            <span class="method patch">PATCH</span>
-            <code class="api-route">&sol;statistics</code>
-          </div>
-          
-          <div class="endpoint-params">
-            <div class="request-body">
-              <h4>Request Body</h4>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>name<span class="required-mark">*</span></td>
-                    <td>string</td>
-                    <td>The name of the service&sol;field being updated.</td>
-                  </tr>
-                  <tr>
-                    <td>currency</td>
-                    <td>string</td>
-                    <td>The currency used in this property.</td>
-                  </tr>
-                  <tr>
-                    <td>value<span class="required-mark">*</span></td>
-                    <td>float</td>
-                    <td>The value of this property.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="endpoints appointments">
-        <h3>Appointments</h3>
-        <div class="endpoint">
-          <p class="title">Get All Appointments</p>
-          <p class="description">Returns all the existing <a href="#appointment-struct">appointments</a>.</p>
 
           <div class="endpoint-info">
             <span class="method get">GET</span>
@@ -416,7 +329,7 @@
           </div>
 
           <div class="endpoint-params">
-            <div>
+            <div class="query params">
               <h4>Query Parameters</h4>
               <table>
                 <thead>
@@ -424,13 +337,21 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
+                    <th>Default</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>status</td>
-                    <td>A valid <a href="#status-struct">status</a> &lpar;case-insensitive&rpar;.</td>
-                    <td>Displays only appointments with the given status.</td>
+                    <td>all</td>
+                    <td>boolean</td>
+                    <td>Displays all appointments globally.</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>active</td>
+                    <td>boolean</td>
+                    <td>Displays only active appointments.</td>
+                    <td>false</td>
                   </tr>
                 </tbody>
               </table>
@@ -448,7 +369,7 @@
                 <tbody>
                   <tr>
                     <td>appointments</td>
-                    <td>Array of <a href="#appointment-struct">appointment</a> objects.</td>
+                    <td>Array of <a href="#appointment-struct" class="entity-reference">appointment</a> objects.</td>
                     <td>All your appointments.</td>
                   </tr>
                 </tbody>
@@ -456,20 +377,20 @@
             </div>
           </div>
         </div>
-        <div class="endpoint">
+        <div class="endpoint" id="create-appointment-endpoint">
           <p class="title">Create Appointment</p>
           <p class="description">Creates a new appointment. Returns an
-            <a href="#appointment-struct">appointment</a>
+            <a href="#appointment-struct" class="entity-reference">appointment</a>
             object on success.
           </p>
 
           <div class="limitations">
-            <span>Limitations</span>
+            <span>Constraints</span>
             <ul>
               <li><code>topic</code> must be in range of <code>5</code> and <code>30</code> characters &lpar;inclusive&rpar;.</li>
               <li><code>description</code> must be in range of <code>10</code> and <code>1000</code> characters &lpar;inclusive&rpar;.</li>
-              <li>Only <code>available</code> subjects can be provided, otherwise you will get a <code>400 Bad Request</code>.</li>
-              <li>The <code>scheduled_at</code> field cannot be in the past and more than 1 month in the future.</li>
+              <li>Only <code>available</code> subjects can be provided.</li>
+              <li>The <code>scheduled_at</code> field cannot be in the past.</li>
             </ul>
           </div>
 
@@ -485,7 +406,7 @@
                 </svg>
               </div>
               <span>
-                The MathXplains API may strip certain characters and remove trailing&sol;leading spaces,
+                The MathXplains API may remove trailing&sol;leading spaces,
                 in these cases, they will not count towards the range constraints.
               </span>
             </div>
@@ -502,10 +423,8 @@
               </div>
               <span>
                 All users have a limit of
-                <code>10</code>
+                <code>20</code>
                 active &lpar;per the <code>is_active</code> field&rpar; appointments.
-                This endpoint will fail with a <code>400 Bad Request</code>
-                if this constraint is violated.
               </span>
             </div>
           </div>
@@ -562,8 +481,8 @@
           <p class="title">Delete Appointment</p>
           <p class="description">
             Deletes an appointment by its ID. Returns a
-            <code>204 No Content</code>
-            on success. The request will not fail if the resource for the given ID does not exist.
+            <code>200 OK</code> empty response on success.
+            Or fails with a <code>404 Not Found</code> if the resource does not exist.
           </p>
 
           <div class="warnings-container">
@@ -584,7 +503,7 @@
           <div class="endpoint-info">
             <span class="method delete">DELETE</span>
             <div class="api-route">
-              <code>&sol;appointments&sol;<span class="query-param">&lcub;appointment.id&rcub;</span></code>
+              <code>&sol;appointments&sol;<span class="query-param">&lcub;<a href="#appointment-struct" class="entity-reference">appointment</a>.id&rcub;</span></code>
             </div>
           </div>
         </div>
@@ -593,7 +512,7 @@
         <h3>Users</h3>
         <div class="endpoint">
           <p class="title">Get User</p>
-          <p class="description">Returns a <a href="#user-struct">user</a> object.</p>
+          <p class="description">Returns a <a href="#user-struct" class="entity-reference">user</a> object.</p>
 
           <div class="warnings-container">
             <div class="warning-container">
@@ -607,19 +526,19 @@
                 </svg>
               </div>
               <span>
-                This endpoint is admin&dash;only &lpar;unless providing your own id&rpar;.
+                This endpoint is admin&dash;only &lpar;unless providing your own id, which is exactly the same as <code><a href="#get-self-user-endpoint" class="entity-reference">Get Self User</a></code>&rpar;.
               </span>
             </div>
           </div>
 
           <div class="endpoint-info">
             <span class="method get">GET</span>
-            <code class="api-route">&sol;users&sol;<span class="query-param">&lcub;user.id&rcub;</span></code>
+            <code class="api-route">&sol;users&sol;<span class="query-param">&lcub;<a href="#user-struct" class="entity-reference">user</a>.id&rcub;</span></code>
           </div>
         </div>
-        <div class="endpoint">
+        <div class="endpoint" id="get-self-user-endpoint">
           <p class="title">Get Self User</p>
-          <p class="description">Returns the self <a href="#user-struct">user</a>.</p>
+          <p class="description">Returns a self <a href="#user-struct" class="entity-reference">user</a> object.</p>
 
           <div class="endpoint-info">
             <span class="method get">GET</span>
@@ -628,7 +547,7 @@
         </div>
         <div class="endpoint">
           <p class="title">Get Users</p>
-          <p class="description">Returns all the existing <a href="#appointment-struct">users</a>.</p>
+          <p class="description">Returns all the existing <a href="#user-struct" class="entity-reference">users</a>.</p>
 
           <div class="warnings-container">
             <div class="warning-container">
@@ -666,7 +585,7 @@
                 <tbody>
                   <tr>
                     <td>users</td>
-                    <td>Array of <a href="#user-struct">user</a> object.</td>
+                    <td>Array of <a href="#user-struct" class="entity-reference">user</a> object.</td>
                     <td>All the existing users.</td>
                   </tr>
                 </tbody>
@@ -682,10 +601,10 @@
           </p>
 
           <div class="limitations">
-            <span>Limitations</span>
+            <span>Constraints</span>
             <ul>
               <li><code>name</code> must be in range of <code>3</code> and <code>64</code> characters &lpar;inclusive&rpar;.</li>
-              <li><code>email</code> must be in range of <code>6</code> and <code>128</code> characters &lpar;inclusive&rpar;. Regex: <code>&lbrack;a-z0-9&period;_%+\-&rbrack;+@[a-z0-9.\-]+\.[a-z]{2,}&dollar;</code>.</li>
+              <li><code>email</code> must be in range of <code>6</code> and <code>128</code> characters &lpar;inclusive&rpar;.</li>
               <li><code>password</code> must be in range of <code>8</code> and <code>256</code> characters &lpar;inclusive&rpar;, have at least one lower and uppercase character, one special character and one number.</li>
             </ul>
           </div>
@@ -702,7 +621,8 @@
                 </svg>
               </div>
               <span>
-                This endpoint does trigger an email confirmation to the recipient&apos;s <code>email</code>.
+                This endpoint does trigger an email confirmation to the recipient&apos;s <code>email</code>,
+                which must be then, confirmed at the <code><a href="#create-email-confirmation-endpoint" class="entity-reference">Create Email Confirmation</a></code> endpoint.
               </span>
             </div>
           </div>
@@ -759,9 +679,12 @@
             </div>
           </div>
         </div>
-        <div class="endpoint">
+        <div class="endpoint" id="create-email-confirmation-endpoint">
           <p class="title">Create Email Confirmation</p>
-          <p class="description">Verifies the email address of the account being created. Returns a <code>204 No Content</code> on success.</p>
+          <p class="description">
+            Verifies the email address of the account being created.
+            Returns a <code>200 OK</code> empty response on success.
+          </p>
 
           <div class="info-container">
             <div class="info-icon">
@@ -871,14 +794,19 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>token</td>
+                    <td>id_token</td>
                     <td>string</span></td>
-                    <td>The JWT token used to authorize the requests.</td>
+                    <td>The JWT id token used to authorize the requests.</td>
+                  </tr>
+                  <tr>
+                    <td>access_token</td>
+                    <td>string</td>
+                    <td>The JWT access token used to access/request data, like request account deletion.</td>
                   </tr>
                   <tr>
                     <td>refresh_token</td>
                     <td>string</span></td>
-                    <td>The refresh token, used to generate a new token.</td>
+                    <td>The refresh token, used to generate new access and id tokens.</td>
                   </tr>
                 </tbody>
               </table>
@@ -922,7 +850,7 @@
               <td>The full name of the professor.</td>
             </tr>
             <tr>
-              <td>common_name &ast;</td>
+              <td>nick &ast;</td>
               <td>?string</td>
               <td>How people usually call the professor.</td>
             </tr>
@@ -992,7 +920,7 @@
           <p>
             &ast;&ast; MathXplains API restricts the usage of some subjects due to the real intentions
             of its creation, in general, only subjects related to mathematical operations are available
-            and accepted by the API when invoking endpoints like <code>Create Appointment</code>.
+            and accepted by the API when invoking endpoints like <code><a href="#create-appointment-endpoint" class="entity-reference">Create Appointment</a></code>.
           </p>         
         </div>
       </div>
@@ -1098,16 +1026,6 @@
               <td>Whether the user has admin privileges or not.</td>
             </tr>
             <tr>
-              <td>email_verified</td>
-              <td>boolean</td>
-              <td>Whether the user has verified their email or not.</td>
-            </tr>
-            <tr>
-              <td>verified_at</td>
-              <td>?ISO8601</td>
-              <td>When the user verified their email.</td>
-            </tr>
-            <tr>
               <td>created_at</td>
               <td>ISO8601 timestamp</td>
               <td>When the account was successfully created.</td>
@@ -1120,110 +1038,12 @@
           </tbody>
         </table>
       </div>
-      <div class="entity statistic">
-        <h3 id="statistic-struct">Statistic</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>sold_items</td>
-              <td>integer</td>
-              <td>The amount of items sold in the project.</td>
-            </tr>
-            <tr>
-              <td>profit</td>
-              <td>A <a href="#profit-struct">profit</a> object.</td>
-              <td>The total profit of the project.</td>
-            </tr>
-            <tr>
-              <td>expenses</td>
-              <td>Array of <a href="#expense-struct">expense</a> objects.</td>
-              <td>The list of expenses.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="entity profit">
-        <h3 id="profit-struct">Profit</h3>
-
-        <div class="info-container">
-          <div class="info-icon">
-            <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-              fill="none" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
-              <path fill="currentColor" fill-rule="evenodd"
-                d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
-                clip-rule="evenodd" class=""></path>
-            </svg>
-          </div>
-          <span>
-            For this entity, the <code>currency</code> field will always return <code>BRL</code>.
-          </span>
-        </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>value</td>
-              <td>float</td>
-              <td>The amount of money earned in the project.</td>
-            </tr>
-            <tr>
-              <td>currency</td>
-              <td>string</td>
-              <td>The currency used &lpar;for future conversions&rpar;.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="entity expense">
-        <h3 id="expense-struct">Expense</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>name</td>
-              <td>string</td>
-              <td>The unique name of this property.</td>
-            </tr>
-            <tr>
-              <td>currency</td>
-              <td>string</td>
-              <td>The currency used &lpar;for future conversions&rpar;.</td>
-            </tr>
-            <tr>
-              <td>value</td>
-              <td>float</td>
-              <td>The amount of money spent on this item.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
     <div class="end-docs">
       <p>That&apos;s it&excl; You have read it all &colon;&rpar;</p>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="script.js"></script>
+  <script src="script/script.js"></script>
 </body>
 </html>

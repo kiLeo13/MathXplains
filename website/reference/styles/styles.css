@@ -6,6 +6,13 @@
   border-right: solid 1px rgb(70, 70, 70);
 }
 
+@media (max-width: 500px) {
+  .wrapper {
+    width:auto;
+    border: none;
+  }
+}
+
 .required-mark {
   margin-left: 4px;
   color: rgb(255, 40, 40);
@@ -210,6 +217,12 @@
   margin-bottom: 10px;
 }
 /**/
+
+.infrastructure-services {
+  line-height: 20px;
+  padding-left: 20px;
+  font-size: 13px;
+}
 
 .blocking-code-box {
   display: flex;
