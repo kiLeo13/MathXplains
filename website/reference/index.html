@@ -329,7 +329,7 @@
           </div>
 
           <div class="endpoint-params">
-            <div class="query params">
+            <div class="query-params">
               <h4>Query Parameters</h4>
               <table>
                 <thead>
@@ -595,9 +595,9 @@
         </div>
         <div class="endpoint">
           <p class="title">Create User</p>
-          <p class="description">Creates a new user with the given credentials. Returns a
-            <code>204 No Content</code>
-            on success.
+          <p class="description">
+            Creates a new <a href="#user-struct" class="entity-reference">user</a> with the given credentials.
+            Returns a <code>200 OK</code> empty response on success.
           </p>
 
           <div class="limitations">
@@ -622,7 +622,7 @@
               </div>
               <span>
                 This endpoint does trigger an email confirmation to the recipient&apos;s <code>email</code>,
-                which must be then, confirmed at the <code><a href="#create-email-confirmation-endpoint" class="entity-reference">Create Email Confirmation</a></code> endpoint.
+                which must be then, verified at the <code><a href="#create-email-confirmation-endpoint" class="entity-reference">Create Email Confirmation</a></code> endpoint.
               </span>
             </div>
           </div>
@@ -734,7 +734,7 @@
           </div>
         </div>
         <div class="endpoint">
-          <p class="title">Sign In User</p>
+          <p class="title">Create Sign In</p>
           <p class="description">Signs In the user with the given credentials.</p>
 
           <div class="info-container">
@@ -782,7 +782,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="request-body">
+            <div class="response-body">
               <h4>Response Body</h4>
               <table>
                 <thead>
@@ -807,6 +807,56 @@
                     <td>refresh_token</td>
                     <td>string</span></td>
                     <td>The refresh token, used to generate new access and id tokens.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Global Sign Out</p>
+          <p class="description">
+            Signs Out the user with the given access token.
+            Returns a <code>200 OK</code> empty response on success.
+            This endpoint invalidates all sessions, revoking the acccess of every id, access and refresh tokens.
+          </p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method post">POST</span>
+            <code class="api-route">&sol;users&sol;logout</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>access_token<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>A valid access token of this account.</td>
                   </tr>
                 </tbody>
               </table>
