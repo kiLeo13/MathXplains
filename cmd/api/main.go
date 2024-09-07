@@ -41,7 +41,7 @@ func main() {
 	e.POST("/api/users", routes.CreateUser)
 	e.POST("/api/users/verify", routes.ConfirmAccount)
 	e.POST("/api/users/verify/resend", routes.ResendConfirmation)
-	e.POST("/api/users/logout", routes.LogOutUser)
+	e.POST("/api/users/global-logout", routes.GlobalLogOut)
 	e.POST("/api/users/login", routes.LogInUser)
 	e.POST("/api/users/refresh", routes.RefreshToken)
 	e.GET("/api/users", routes.GetUsers)

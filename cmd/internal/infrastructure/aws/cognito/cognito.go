@@ -19,7 +19,7 @@ type User struct {
 type CognitoInterface interface {
 	SignUp(user *User) (string, error)
 	SignIn(user *UserLogin) (*AuthCreate, error)
-	SignOut(accessToken string) error
+	GlobalSignOut(accessToken string) error
 	ConfirmAccount(user *UserConfirmation) error
 	DeleteUser(accessToken string) error
 	ResendConfirmation(user *UserConfirmation) error
@@ -73,7 +73,7 @@ func (c *cognitoClient) SignUp(user *User) (sub string, err error) {
 	return *out.UserSub, nil
 }
 
-func (c *cognitoClient) SignOut(accessToken string) error {
+func (c *cognitoClient) GlobalSignOut(accessToken string) error {
 	logout := &cognito.GlobalSignOutInput{
 		AccessToken: aws.String(accessToken),
 	}

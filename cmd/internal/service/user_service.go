@@ -114,9 +114,9 @@ func SignIn(u *cognito.UserLogin) (*cognito.AuthCreate, *APIError) {
 	return auth, nil
 }
 
-func SignOut(accessToken string) *APIError {
+func GlobalSignOut(accessToken string) *APIError {
 	cogClient := cognito.Client
-	err := cogClient.SignOut(accessToken)
+	err := cogClient.GlobalSignOut(accessToken)
 	if err != nil {
 		return NewError(400, err.Error())
 	}

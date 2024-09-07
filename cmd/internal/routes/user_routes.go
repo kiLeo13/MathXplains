@@ -48,7 +48,7 @@ func LogInUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, create)
 }
 
-func LogOutUser(c echo.Context) error {
+func GlobalLogOut(c echo.Context) error {
 	body := make(map[string]string)
 	if err := c.Bind(&body); err != nil {
 		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
@@ -59,7 +59,7 @@ func LogOutUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, service.ErrorParamNotProvided("access_token"))
 	}
 
-	err := service.SignOut(token)
+	err := service.GlobalSignOut(token)
 	if err != nil {
 		return c.JSON(err.Status, err)
 	}
