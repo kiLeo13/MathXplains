@@ -71,7 +71,7 @@ func CreateAppointment(data *AppointmentCreateDTO) (*AppointmentDTO, *APIError) 
 	}
 
 	if isDateInPast(schd) {
-		return nil, ErrorDateInThePast
+		return nil, ErrorAppointmentTooOldToDelete
 	}
 
 	now := NowUTC()
@@ -173,7 +173,7 @@ func checkDeletionDate(sec int64) *APIError {
 	period := now.Sub(schd)
 
 	if period >= maxDeletionPeriod {
-		return ErrorDateInThePast
+		return ErrorAppointmentTooOldToDelete
 	}
 	return nil
 }

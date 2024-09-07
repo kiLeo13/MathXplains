@@ -18,16 +18,16 @@ var (
 	ErrorPasswordNumbers      = NewError(400, "Passwords must have at least one number")
 	ErrorInvalidPasswordRange = NewError(400, "Password is out of range: (%d - %d)", passwordMinLength, passwordMaxLength)
 
-	ErrorTooManyAppointments     = NewError(400, "Too many active appointments")
-	ErrorInvalidTopicRange       = NewError(400, "Topic is out of range: (%d - %d)", minTopicLength, maxTopicLength)
-	ErrorInvalidDescriptionRange = NewError(400, "Description is out of range: (%d - %d)", minDescLength, maxDescLength)
-	ErrorAppointmentNotFound     = NewError(404, "Appointment not found")
+	ErrorTooManyAppointments       = NewError(400, "Too many active appointments")
+	ErrorAppointmentTooOldToDelete = NewError(400, "This appointment is too old to be deleted (max: %d seconds in the past).", int32(maxDeletionPeriod.Seconds()))
+	ErrorInvalidTopicRange         = NewError(400, "Topic is out of range: (%d - %d)", minTopicLength, maxTopicLength)
+	ErrorInvalidDescriptionRange   = NewError(400, "Description is out of range: (%d - %d)", minDescLength, maxDescLength)
+	ErrorAppointmentNotFound       = NewError(404, "Appointment not found")
 
 	ErrorSubjectDoesNotExist = NewError(400, "Subject does not exist")
 	ErrorSubjectUnavailable  = NewError(400, "Subject is unavailable")
 
 	ErrorIncorrectDateFormat = NewError(400, "Incorrect date format, expected: 'yyyy-mm-dd'")
-	ErrorDateInThePast       = NewError(400, "Date is in the past")
 )
 
 type APIError struct {
