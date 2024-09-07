@@ -1,12 +1,11 @@
-import { deleteAppointment } from '../modal/delete-appointment.js'
-import { registerSwipeDeletion } from '../modal/swipe-deletion.js'
+import { deleteAppointment } from '../http/delete-appointment.js'
 import { fetchAppointments, getSubjectById, getProfessorById } from './resources.js'
 
 $(() => {
   // Different screen sizes require some adjustments,
   // for mobile devices, the Appointments Wrapper class position
-  // should always be absolute with 0 inset, desktop devices
-  // on the other hand, must be always centered (static)
+  // should always be absolute with 0 inset, Desktop devices
+  // on the other hand, must be always static.
   onresize = () => {
     const width = window.innerWidth
     const apptsWrapper = $('.appointments-wrapper')
@@ -67,8 +66,7 @@ async function setItems(appts) {
   }
 
   $('.items-container').append(html)
-  $(`.delete-appt-button`).on('click', deleteAppointment)
-  registerSwipeDeletion()
+  $('.delete-appt-button').on('click', (e) => deleteAppointment(e))
 }
 
 function setDisplayStyle(empty = true) {

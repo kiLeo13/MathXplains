@@ -1,5 +1,5 @@
 const BASE_URL = 'https://api.mathxplains.com.br'
-export const USER_URL = 'https://mathxplains.com.br'
+const USER_URL = 'https://mathxplains.com.br'
 
 const ROUTES = {
   GET_SELF_USER: BASE_URL + '/users/@me',
@@ -12,6 +12,12 @@ const ROUTES = {
   GET_PROFESSORS: BASE_URL + "/professors?known=true",
 
   REFRESH_TOKEN: BASE_URL + "/users/refresh",
+
+  GLOBAL_SIGN_OUT: BASE_URL + "/users/global-logout"
 }
 
-export default ROUTES
+const USER_ROUTES = {
+  LOGIN: USER_URL + "/login"
+}
+
+export { ROUTES, USER_ROUTES }

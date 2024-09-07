@@ -29,6 +29,7 @@ header {
 }
 
 .user-container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -58,4 +59,64 @@ header {
   filter: invert() brightness(60%);
   height: 60%;
   width: 60%;
+}
+
+.user-image-container:hover {
+  height: 75%;
+  cursor: pointer;
+}
+
+/* User Tools */
+.user-actions {
+  position: absolute;
+  display: flex;
+  padding: 5px;
+  width: 230px;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  background-color: oklab(0.321088 -0.000220731 -0.00934622);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  top: 50px;
+}
+
+@media (max-width: 720px) {
+  .user-actions {
+    top: 50px;
+  }
+}
+
+@media (max-width: 650px) {
+  .user-actions {
+    top: 64px;
+  }
+}
+
+.user-actions div {
+  display: flex;
+  user-select: none;
+  justify-content: start;
+  align-items: center;
+  gap: 10px; /* It is expected for every item on the list to have an icon */
+}
+
+#sign-out-icon {
+  fill: rgb(177, 110, 110);
+}
+
+.sign-out-actions {
+  background-color: rgba(255, 0, 0, 0.4);
+  color: rgb(177, 110, 110);
+  font-weight: 600;
+  font-size: 18px;
+  overflow: hidden;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+}
+
+.sign-out-actions:hover {
+  background-color: rgba(255, 0, 0, 0.45);
 }

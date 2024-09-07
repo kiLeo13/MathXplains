@@ -1,10 +1,9 @@
-import ROUTES from "../http/routes.js"
+import { ROUTES } from "../http/routes.js"
 import { loadAppointments } from "../resources/appointments.js"
 import { closeModal, setSaveLoading, showError } from "../resources/modals.js"
 import { getIdToken } from "../resources/resources.js"
 
 export async function onSubmit(e) {
-  console.log('hi?')
   e.preventDefault()
 
   const subj = $('#form-subject').val()

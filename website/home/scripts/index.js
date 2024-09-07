@@ -1,7 +1,7 @@
 import { showModal } from './resources/modals.js'
 import { fetchSelfUser, updateCache } from './resources/resources.js'
 import { loadAppointments } from './resources/appointments.js'
-import { USER_URL } from './http/routes.js'
+import { USER_ROUTES } from './http/routes.js'
 
 $(async () => {
   await updateUsername()
@@ -19,7 +19,7 @@ async function updateUsername() {
   if (self.name) {
     setUsername(self.name)
   } else {
-    location.href = USER_URL + '/login'
+    location.href = USER_ROUTES.LOGIN
   }
 }
 

@@ -1,4 +1,5 @@
-import ROUTES from "../http/routes.js"
+import { ROUTES } from "../http/routes.js"
+import CACHE from './cache.js'
 
 let professors
 let subjects
@@ -45,11 +46,11 @@ export async function fetchAppointments() {
 }
 
 export function getIdToken() {
-  return localStorage.getItem('idToken')
+  return localStorage.getItem(CACHE.ID_TOKEN)
 }
 
 export function getAccessToken() {
-  return localStorage.getItem('accessToken')
+  return localStorage.getItem(CACHE.ACCESS_TOKEN)
 }
 
 async function get(url, auth) {
