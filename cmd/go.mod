@@ -11,7 +11,9 @@ require github.com/mattn/go-sqlite3 v1.14.22
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/stretchr/testify v1.9.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
 require (

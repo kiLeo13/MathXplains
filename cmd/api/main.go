@@ -29,11 +29,13 @@ func main() {
 	e.Static("/", ".")
 
 	apptms := repository.NewAppointmentRepository(db)
+	noteRepo := repository.NewNoteRepository(db)
 	professorRepo := repository.NewProfessorRepository(db)
 	subjectRepo := repository.NewSubjectRepository(db)
 	userRepo := repository.NewUserRepository(db)
 
 	service.SetAppointmentRepository(apptms)
+	service.SetNoteRepository(noteRepo)
 	service.SetProfessorRepository(professorRepo)
 	service.SetSubjectRepository(subjectRepo)
 	service.SetUserRepository(userRepo)
@@ -51,6 +53,11 @@ func main() {
 	e.GET("/api/appointments", routes.GetAppointments)
 	e.POST("/api/appointments", routes.CreateAppointment)
 	e.DELETE("/api/appointments/:id", routes.DeleteAppointment)
+
+	e.GET("/api/notes", routes.GetNotes)
+	e.POST("/api/notes", routes.CreateNote)
+	e.PUT("/api/notes/:id", routes.PutNote)
+	e.DELETE("/api/notes/:id", routes.DeleteNote)
 
 	e.GET("/api/subjects", routes.GetSubjects)
 	e.GET("/api/professors", routes.GetProfessors)

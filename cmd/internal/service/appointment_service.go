@@ -98,9 +98,9 @@ func GetAppointments(activeOnly, all bool, userId string) ([]*AppointmentDTO, *A
 		return nil, ErrorInternalServer
 	}
 
-	apptmList := make([]*AppointmentDTO, 0)
-	for _, a := range apptmts {
-		apptmList = append(apptmList, toApptmDTO(a))
+	apptmList := make([]*AppointmentDTO, len(apptmts))
+	for i, a := range apptmts {
+		apptmList[i] = toApptmDTO(a)
 	}
 	return apptmList, nil
 }
@@ -108,7 +108,7 @@ func GetAppointments(activeOnly, all bool, userId string) ([]*AppointmentDTO, *A
 func DeleteAppointment(userId, id string) *APIError {
 	apptId, err := strconv.Atoi(id)
 	if err != nil {
-		return ErrorInvalidPathParam("id", "integer")
+		return ErrorInvalidPathParamType("id", "integer")
 	}
 
 	apptm, err := apptmRepo.FindByIdAndUser(userId, apptId)

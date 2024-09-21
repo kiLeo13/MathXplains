@@ -47,8 +47,7 @@ func getTables() []string {
     	  name TEXT NOT NULL,
     	  admin INTEGER NOT NULL DEFAULT 0,
     	  created_at BIGINT NOT NULL,
-    	  updated_at BIGINT NOT NULL,
-    	  FOREIGN KEY (classroom_id) REFERENCES classrooms(id)
+    	  updated_at BIGINT NOT NULL
 		)`,
 
 		`professors (
@@ -83,6 +82,15 @@ func getTables() []string {
     	  FOREIGN KEY(user_id) REFERENCES users(id),
     	  FOREIGN KEY(subject_id) REFERENCES subjects(id),
     	  FOREIGN KEY(professor_id) REFERENCES professors(id)
+		)`,
+
+		`notes (
+		  id INTEGER PRIMARY KEY AUTOINCREMENT,
+		  profile TEXT NOT NULL,
+		  name TEXT NOT NULL,
+		  content TEXT NOT NULL,
+		  last_modified BIGINT NOT NULL,
+		  active INTEGER NOT NULL DEFAULT 1
 		)`,
 	}
 }

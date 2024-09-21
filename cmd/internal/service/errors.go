@@ -6,8 +6,15 @@ import (
 
 var (
 	ErrorMalformedJSON  = NewError(400, "Malformed JSON body")
-	ErrorInternalServer = NewError(500, "Internal server error")
 	ErrorMissingAdmin   = NewError(403, "Missing admin privileges")
+	ErrorInternalServer = NewError(500, "Internal server error")
+
+	ErrorInvalidNoteNameRange    = NewError(400, "Note name is out of range: (%d - %d)", noteNameMinLength, noteNameMaxLength)
+	ErrorInvalidNoteProfileRange = NewError(400, "Note profile is out of range: (%d - %d)", noteProfileMinlength, noteProfileMaxlength)
+	ErrorNoteContentTooLong      = NewError(400, "Note content can only be up to %d characters long", noteContentMaxLength)
+	ErrorNoteNotFound            = NewError(404, "Note not found")
+	ErrorNoteNameAlreadyExists   = NewError(409, "A note for the given name already exists in this profile")
+	ErrorProfileNotProvided      = NewError(400, "Profile not provided")
 
 	ErrorUserExists           = NewError(400, "User already exists")
 	ErrorUserNotFound         = NewError(404, "User not found")
@@ -46,7 +53,7 @@ func ErrorInvalidPattern(paramName string) *APIError {
 	return NewError(400, `Parameter "%s" is not in the expected pattern`, paramName)
 }
 
-func ErrorInvalidPathParam(path, dataType string) *APIError {
+func ErrorInvalidPathParamType(path, dataType string) *APIError {
 	return NewError(400, `Invalid path parameter: "%s" should be of type %s`, path, dataType)
 }
 
