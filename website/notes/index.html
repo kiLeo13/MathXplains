@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/generic.css">
+  <link rel="stylesheet" href="styles/sidebar.css">
+  <link rel="stylesheet" href="styles/board.css">
+  <link rel="stylesheet" href="styles/welcome.css">
+  <!-- <link rel="shortcut icon" href="https://cdn.mathxplains.com.br/icons/favicon.png" type="image/x-icon"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anotações - MathXplains</title>
+</head>
+<body>
+  <div class="root">
+    <div class="sidebar">
+      <div class="upper-controls">
+        <form class="sidebar-header">
+          <div class="option-field">
+            <div class="profile-input-label">
+              <label for="profile-in">Perfil</label>
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px"
+                viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+              
+                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="rgb(132, 177, 102)" stroke="none">
+                  <path d="M2390 5110 c-157 -22 -329 -75 -461 -140 -95 -48 -234 -147 -319
+              -227 -203 -191 -334 -415 -407 -697 -27 -101 -27 -102 -30 -573 l-4 -473 -123
+              0 c-201 0 -285 -41 -348 -167 l-33 -68 0 -1260 c0 -1052 2 -1267 14 -1300 32
+              -93 104 -163 197 -191 73 -22 3296 -21 3371 1 78 23 136 74 175 152 l33 68 0
+              1265 0 1265 -33 68 c-63 127 -147 167 -349 167 l-123 0 0 428 c0 461 -5 523
+              -55 697 -86 295 -296 581 -557 756 -162 107 -310 170 -496 209 -111 24 -350
+              34 -452 20z m405 -519 c317 -91 554 -334 637 -653 20 -77 21 -113 25 -510 l5
+              -428 -902 0 -902 0 5 428 c4 397 5 433 25 510 87 335 351 591 687 666 99 22
+              324 15 420 -13z m-114 -2497 c151 -48 252 -192 253 -361 0 -74 -4 -88 -37
+              -157 -25 -50 -53 -89 -86 -118 l-49 -43 54 -250 c29 -137 53 -258 54 -267 0
+              -17 -21 -18 -310 -18 -289 0 -310 1 -309 18 0 9 24 130 53 267 l53 250 -48 43
+              c-94 83 -143 229 -119 349 47 228 269 357 491 287z">
+                </g>
+              </svg>
+              <span class="profile-input-lock-info">
+                Todas as senhas&sol;perfis são armazenados de maneira segura, criptografadas.
+              </span>
+            </div>
+            <div class="profile-sidebar-components">
+              <input class="option-input" autofocus type="password" id="profile-in" autocomplete="new-password" minlength="3" maxlength="50" placeholder="$saltitas_tcc--" required>
+              <button id="profile-send-button" type="submit">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                  viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+              
+                  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
+                    <path d="M521 4944 c-169 -45 -301 -180 -346 -351 -23 -86 -23 -3980 0 -4066
+              45 -173 178 -307 350 -352 43 -11 111 -15 247 -15 l188 0 0 748 c0 639 2 756
+              15 807 45 172 179 305 352 350 87 23 2380 22 2468 0 172 -45 305 -179 350
+              -352 13 -48 15 -174 15 -805 l0 -748 188 0 c136 0 204 4 247 15 172 45 305
+              179 350 352 22 83 23 3326 1 3376 -18 41 -1012 1033 -1049 1047 -16 5 -106 10
+              -202 10 l-174 0 -3 -682 -3 -683 -27 -51 c-40 -76 -70 -107 -140 -145 l-63
+              -34 -725 0 -725 0 -63 34 c-69 37 -109 79 -144 151 l-23 45 -3 683 -3 682
+              -512 -1 c-414 0 -522 -3 -566 -15z" />
+                    <path d="M1920 4320 l0 -640 640 0 640 0 0 640 0 640 -640 0 -640 0 0 -640z" />
+                    <path d="M1375 1746 c-37 -16 -70 -52 -84 -89 -8 -19 -11 -267 -11 -763 l0
+              -734 1280 0 1280 0 -2 749 c-3 739 -3 750 -24 777 -11 15 -33 37 -48 48 -27
+              21 -33 21 -1194 23 -957 2 -1172 0 -1197 -11z" />
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="sidebar-separator"></div>
+        <div class="sidebar-files-controls">
+          <div class="button-with-loader-container">
+            <div class="loader"></div>
+            <button id="new-file-button">
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet">
+            
+                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
+                  <path d="M1138 4835 c-204 -50 -378 -226 -429 -435 -12 -45 -14 -375 -14
+                       -1850 l0 -1795 27 -80 c67 -196 227 -344 419 -390 96 -22 2742 -22 2838 0 198
+                       47 365 208 428 415 16 50 18 167 20 1344 2 806 0 1308 -6 1341 -22 119 -14
+                       110 -675 773 -557 558 -628 626 -686 655 l-65 32 -900 2 c-740 1 -910 -1 -957
+                       -12z m1692 -687 c0 -428 3 -456 66 -581 47 -92 152 -199 244 -245 128 -64 136
+                       -65 573 -69 l397 -4 0 -1208 c0 -1324 3 -1263 -59 -1349 -17 -22 -52 -53 -78
+                       -69 l-48 -28 -1365 0 -1365 0 -48 28 c-26 16 -61 47 -78 70 -63 87 -59 -28
+                       -57 1888 l3 1745 30 59 c33 64 82 109 141 130 32 12 185 14 842 15 l802 0 0
+                       -382z m808 -576 c-272 -3 -315 4 -389 61 -25 18 -55 55 -71 86 l-28 53 0 267
+                       0 266 365 -365 365 -365 -242 -3z" />
+                  <path d="M2507 2816 c-49 -18 -64 -32 -88 -77 -17 -34 -19 -61 -19 -244 l0
+                  -205 -206 0 c-169 0 -212 -3 -240 -16 -50 -24 -77 -68 -82 -133 -5 -70 22
+                       -115 88 -148 41 -22 57 -23 242 -23 l197 0 3 -214 c3 -235 4 -240 72 -290 39
+                       -29 133 -29 172 0 68 50 69 55 72 290 l3 214 197 0 c185 0 201 1 242 23 66 33
+                       93 78 88 148 -5 65 -32 109 -82 133 -28 13 -71 16 -240 16 l-206 0 0 205 c0
+                       185 -2 210 -20 244 -35 69 -121 103 -193 77z" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <div class="button-with-loader-container">
+            <div class="loader"></div>
+            <button id="refresh-files-button">
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
+                viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+            
+                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
+                  <path d="M2390 5114 c-227 -19 -424 -53 -589 -103 -549 -165 -1035 -530 -1366
+            -1026 -145 -217 -277 -510 -350 -780 -31 -115 -28 -152 16 -189 l31 -26 368 0
+            c368 0 369 0 394 23 14 12 52 87 90 174 88 205 124 274 191 368 125 173 265
+            308 441 425 319 211 685 308 1060 280 255 -19 408 -59 619 -160 153 -74 271
+            -153 420 -282 5 -5 -93 -111 -242 -261 -260 -261 -273 -278 -273 -357 0 -78
+            53 -159 125 -191 38 -17 87 -19 835 -19 748 0 797 2 835 19 51 23 101 79 114
+            128 7 25 11 304 11 818 0 878 4 823 -77 896 -66 59 -157 69 -238 26 -16 -9
+            -129 -115 -250 -236 -121 -122 -223 -221 -228 -221 -4 0 -52 38 -107 84 -379
+            319 -815 515 -1310 591 -100 15 -425 27 -520 19z" />
+                  <path d="M125 2111 c-51 -23 -101 -79 -114 -128 -7 -25 -11 -304 -11 -816 0
+            -864 -4 -816 68 -890 64 -66 157 -80 242 -36 19 10 134 117 255 238 121 122
+            225 221 231 221 6 0 21 -12 35 -26 77 -83 345 -276 509 -366 222 -122 527
+            -228 790 -273 366 -62 797 -36 1165 71 541 158 1053 545 1375 1039 137 210
+            265 501 340 772 29 104 30 114 16 146 -28 68 -21 67 -418 67 -356 0 -357 0
+            -382 -22 -14 -13 -52 -88 -90 -175 -88 -205 -124 -274 -191 -368 -81 -113
+            -157 -196 -255 -283 -451 -398 -1074 -528 -1645 -345 -202 64 -409 179 -575
+            317 l-71 59 250 251 c258 260 271 277 271 356 0 78 -53 159 -125 191 -38 17
+            -87 19 -835 19 -748 0 -797 -2 -835 -19z" />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="sidebar-separator"></div>
+      </div>
+
+      <div class="sidebar-items">
+        <div class="sidebar-file-item">
+
+        </div>
+      </div>
+    </div>
+  
+    <div class="board-wrapper">
+      <textarea id="board-content" maxlength="500000">asd</textarea>
+      <footer class="board-tools">
+        footer
+      </footer>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="scripts/index.js"></script>
+  <script type="module" src="scripts/sidebar/profile-handler.js"></script>
+  <script type="module" src="scripts/http/routes.js"></script>
+  <script type="module" src="scripts/sidebar/resources.js"></script>
+  <script type="module" src="scripts/http/fetch-files.js"></script>
+  <script type="module" src="scripts/http/create-file.js"></script>
+</body>
+</html>

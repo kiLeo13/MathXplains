@@ -1,0 +1,25 @@
+.board-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+#board-content {
+  position: fixed;
+  font-family: Poppins;
+  font-size: 14px;
+  inset: 0 0 0 45vh;
+  border: none;
+  outline: none;
+  resize: none;
+  line-height: 18px;
+  padding: 5px 5px 5px 10px;
+  background-color: transparent;
+  color: rgb(194, 194, 194);
+}
+
+.board-tools {
+  position: fixed;
+  background-color: rgb(73, 73, 73);
+  inset: auto 0 0 45vh;
+}
