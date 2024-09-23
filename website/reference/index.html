@@ -625,21 +625,20 @@
                 which must be then, verified at the <code><a href="#create-email-confirmation-endpoint" class="entity-reference">Create Email Confirmation</a></code> endpoint.
               </span>
             </div>
-          </div>
-
-          <div class="info-container">
-            <div class="info-icon">
-              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
-                <path fill="currentColor" fill-rule="evenodd"
-                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
-                  clip-rule="evenodd" class=""></path>
-              </svg>
+            <div class="info-container">
+              <div class="info-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                    clip-rule="evenodd" class=""></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint does not require authentication.
+              </span>
             </div>
-            <span>
-              This endpoint does not require authentication.
-            </span>
           </div>
 
           <div class="endpoint-info">
@@ -861,6 +860,321 @@
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="endpoints notes">
+        <h3>Notes</h3>
+        <div class="endpoint" id="list-notes-endpoint">
+          <p class="title">List Notes</p>
+          <p class="description">Returns an array of partial <a href="#note-struct" class="entity-reference">note</a> objects within the given profile. This partial object contains only the <code>note.id</code> and <code>note.name</code> fields.</p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;notes</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="query-params">
+              <h4>Query Parameters</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>profile<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>A valid profile to list the notes in.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="response-body">
+              <h4>Response Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>notes</td>
+                    <td>Array of partial <a href="#note-struct" class="entity-reference">note</a> objects.</td>
+                    <td>All the notes in that profile..</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint" id="open-note-endpoint">
+          <p class="title">Open Note</p>
+          <p class="description">
+            This endpoint is used in contrast to
+            <code><a href="#list-notes-endpoint" class="entity-reference">List Notes</a></code>
+            in order not to overwhelm the client, in case they have a large amount of notes with thousands of characters each.
+            <br>
+            Returns a complete
+            <a href="#note-struct" class="entity-reference">note</a>
+            object on success.
+          </p>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method get">GET</span>
+            <code class="api-route">&sol;notes&sol;<span class="query-param">&lcub;<a href="#note-struct" class="entity-reference">note</a>.id&rcub;</span></code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="query-params">
+              <h4>Query Parameters</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>profile<span class="required-mark">*</td>
+                    <td>string</span></td>
+                    <td>A valid profile to list the notes in.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Create Note</p>
+          <p class="description">
+            Creates a new note.
+            Returns a <a href="#note-struct" class="entity-reference">note</a> object on success.
+          </p>
+
+          <div class="limitations">
+            <span>Constraints</span>
+            <ul>
+              <li><code>name</code> must be in range of <code>1</code> and <code>30</code> characters &lpar;inclusive&rpar;.</li>
+              <li><code>profile</code> must be in range of <code>3</code> and <code>50</code> characters &lpar;inclusive&rpar;.</li>
+              <li><code>content</code> can have at most <code>500.000</code> characters &lpar;inclusive&rpar;.</li>
+            </ul>
+          </div>
+
+          <div class="info-container">
+            <div class="info-icon">
+              <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                  clip-rule="evenodd" class=""></path>
+              </svg>
+            </div>
+            <span>
+              This endpoint does not require authentication.
+            </span>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method post">POST</span>
+            <code class="api-route">&sol;notes</code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>name<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The name of the file&sol;note.</td>
+                  </tr>
+                  <tr>
+                    <td>profile<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The profile this note will be created in.</td>
+                  </tr>
+                  <tr>
+                    <td>content</td>
+                    <td>string</td>
+                    <td>The content inside the file&sol;note.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Edit Note</p>
+          <p class="description">
+            Edits&sol;overrides a note for the given ID and profile.
+            Returns the new <a href="#note-struct" class="entity-reference">note</a> object on success.
+          </p>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint requires the <code>Profile</code> HTTP header.
+              </span>
+            </div>
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint <i>IS NOT</i> a <code>PATCH</code> operation!
+                The provided request body will override all current fields in the given note.
+              </span>
+            </div>
+            <div class="info-container">
+              <div class="info-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                    clip-rule="evenodd" class=""></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint does not require authentication.
+              </span>
+            </div>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method put">PUT</span>
+            <code class="api-route">&sol;notes&sol;<span class="query-param">&lcub;<a href="#note-struct" class="entity-reference">note</a>.id&rcub;</span></code>
+          </div>
+
+          <div class="endpoint-params">
+            <div class="request-body">
+              <h4>Request Body</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>name<span class="required-mark">*</span></td>
+                    <td>string</td>
+                    <td>The new name of the file&sol;note.</td>
+                  </tr>
+                  <tr>
+                    <td>content</td>
+                    <td>string</td>
+                    <td>The new content of the file&sol;note.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint">
+          <p class="title">Delete Note</p>
+          <p class="description">Deletes a note by its ID and profile. Returns a <code>200 OK</code> empty response on success. Or fails with a <code>404 Not Found</code> if the resource does not exist.</p>
+
+          <div class="warnings-container">
+            <div class="warning-container">
+              <div class="warning-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm1.44-15.94L13.06 14a1.06 1.06 0 0 1-2.12 0l-.38-6.94a1 1 0 0 1 1-1.06h.88a1 1 0 0 1 1 1.06Zm-.19 10.69a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint requires the <code>Profile</code> HTTP header.
+              </span>
+            </div>
+            <div class="info-container">
+              <div class="info-icon">
+                <svg class="icon-26jF1x" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="transparent" class=""></circle>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M23 12a11 11 0 1 1-22 0 11 11 0 0 1 22 0Zm-9.5-4.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0Zm-.77 3.96a1 1 0 1 0-1.96-.42l-1.04 4.86a2.77 2.77 0 0 0 4.31 2.83l.24-.17a1 1 0 1 0-1.16-1.62l-.24.17a.77.77 0 0 1-1.2-.79l1.05-4.86Z"
+                    clip-rule="evenodd" class=""></path>
+                </svg>
+              </div>
+              <span>
+                This endpoint does not require authentication.
+              </span>
+            </div>
+          </div>
+
+          <div class="endpoint-info">
+            <span class="method delete">DELETE</span>
+            <code class="api-route">&sol;notes&sol;<span class="query-param">&lcub;<a href="#note-struct" class="entity-reference">note</a>.id&rcub;</span></code>
           </div>
         </div>
       </div>
@@ -1087,6 +1401,60 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="entity note">
+        <h3 id="note-struct">Note</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>integer</td>
+              <td>The unique ID for this note.</td>
+            </tr>
+            <tr>
+              <td>profile &ast;</td>
+              <td>string</td>
+              <td>The profile this note is held by.</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>The name of the file&sol;note.</td>
+            </tr>
+            <tr>
+              <td>content &ast;&ast;</td>
+              <td>string</td>
+              <td>The content stored inside that file&sol;note.</td>
+            </tr>
+            <tr>
+              <td>created_at</td>
+              <td>ISO8601 timestamp</td>
+              <td>When the was created.</td>
+            </tr>
+            <tr>
+              <td>last_modified</td>
+              <td>ISO8601 timestamp</td>
+              <td>The last time the note was updated.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="fields-specifications">
+          <p>
+            &ast; This field will never be present in any API responses due to its nature of being hashed when getting inserted to the database.
+            But is a required parameter in some endpoints.
+          </p>
+          <p>
+            &ast;&ast; This field will only be present when invoking the <code><a href="#open-note-endpoint" class="entity-reference">Open Note</a></code> endpoint,
+            to avoid overwhelming the client, when they open up the website, the files are only displayed on screen, not fully loaded.
+          </p>
+        </div>
       </div>
     </div>
     <div class="end-docs">

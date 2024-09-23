@@ -172,13 +172,18 @@
 }
 
 .method.patch {
-  background-color: rgb(146, 58, 0);
-  border: solid 1px rgb(192, 140, 42);
+  background-color: rgb(109, 65, 4);
+  border: solid 1px rgb(175, 118, 21);
 }
 
 .method.delete {
   background-color: rgb(100, 10, 10);
   border: solid 1px rgb(160, 45, 45);
+}
+
+.method.put {
+  background-color: rgb(95, 43, 11);
+  border: solid 1px rgb(172, 90, 31);
 }
 
 .endpoint-params {
