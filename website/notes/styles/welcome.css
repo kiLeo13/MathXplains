@@ -19,6 +19,7 @@
   background-color: rgb(52, 52, 56);
   border-radius: 20px;
   padding-bottom: 40px;
+  transition: scale .2s;
 }
 
 .close-welcome-x {

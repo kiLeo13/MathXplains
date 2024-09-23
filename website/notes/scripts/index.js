@@ -1,31 +1,39 @@
+import { disableCreate, disableReload } from "./sidebar/buttons.js"
+
 const WELCOME_CACHE_KEY = 'welcome-screen'
 
 $(() => {
   ensureWelcomeScreen()
-  setTimeout(loadTitleShadows, 1700)
+  disableReload()
+  disableCreate()
 })
+
+function ensureWelcomeScreen() {
+  if (hasReadWelcome()) return
+  
+  const screen = buildWelcomeScreen()
+  $('body').append(screen)
+  profileFocus(false)
+  
+  setTimeout(loadTitleShadows, 1700)
+  setListeners()
+}
 
 function loadTitleShadows() {
   $('.domain-title').css('box-shadow', '0 0 20px rgba(255, 87, 51, 0.3)')
   $('.app-title').css('box-shadow', '0 0 20px rgba(143, 255, 51, 0.3)')
 }
 
-function ensureWelcomeScreen() {
-  if (hasReadWelcome()) return
-
-  const screen = buildWelcomeScreen()
-  $('body').append(screen)
-  profileFocus(false)
-
-  setListeners()
-}
-
 function setListeners() {
   const $wrapper = $('.welcome-wrapper')
   const closeWelcome = () => {
-    $wrapper.remove()
-    setWelcomeRead()
-    profileFocus()
+    $('.welcome-screen').css('scale', '0')
+
+    setTimeout(() => {
+      $wrapper.remove()
+      setWelcomeRead()
+      profileFocus()
+    }, 300)
   }
 
   $('.welcome-close-action').on('click', closeWelcome)
@@ -75,14 +83,17 @@ function buildWelcomeScreen() {
             <p class="category-p">
               Mesmo não tendo um limite para quantos arquivos você pode criar, há um limite de <code>500.000</code> caracteres por arquivo.
             </p>
+            <p class="category-p">
+              Sim, a interface foi inspirada no ChatGPT.
+            </p>
           </div>
           <div class="category">
             <h2>Segurança</h2>
             <p class="category-p">
-              Todas as senhas&sol;perfis utilizados neste site são armazenados criptograficamente,
-              utilizando da implementação <a href="https://www.geeksforgeeks.org/what-is-salted-password-hashing/" target="_blank" rel="noopener noreferrer">Salted Hash</a>.
+              Todos os perfis utilizados neste site são armazenados criptograficamente,
+              utilizando hashing <a href="https://en.wikipedia.org/wiki/SHA-2" target="_blank" rel="noopener noreferrer">SHA-256</a>.
               <br>
-              <span class="disclaimer">Não, nem eu tenho acesso às senhas</span>
+              <span class="disclaimer">Nem eu tenho acesso às senhas</span>
             </p>
           </div>
         </main>

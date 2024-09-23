@@ -1,3 +1,6 @@
+import { loadingCreate, loadingRefresh } from "../buttons.js"
+import { loadNotes } from "../sidebar.js"
+
 $(() => {
   const $profileForm = $('.sidebar-header')
 
@@ -7,14 +10,18 @@ $(() => {
   })
 })
 
-function saveProfile(e) {
+async function saveProfile(e) {
   e.preventDefault()
   const $profile = $('#profile-in')
 
   sessionStorage.setItem('profile', $profile.val())
-  $profile.va
   $profile.val('')
 
-  // Remove focus
   $profile.trigger('blur')
+  
+  loadingRefresh()
+  loadingCreate()
+  await loadNotes()
+  loadingRefresh(false)
+  loadingCreate(false)
 }

@@ -1,0 +1,79 @@
+.sidebar-notes {
+  display: flex;
+  margin-top: 12px;
+  margin-bottom: 5px;
+  flex-direction: column;
+  height: 100%;
+  width: 250px;
+  overflow-y: scroll;
+  gap: 5px;
+  color: white;
+  font-family: ui-sans-serif, -apple-system, system-ui, Segoe UI, Helvetica, Apple Color Emoji, Arial, sans-serif, Segoe UI Emoji, Segoe UI Symbol;;
+}
+
+.sidebar-file-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  justify-content: space-between;
+  background-color: rgb(21, 21, 21);
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 12px 8px;
+  min-height: 19px;
+  cursor: pointer;
+}
+
+.sidebar-file-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: inset -60px 0 20px -30px rgb(21, 21, 21);
+  pointer-events: none;
+}
+
+.sidebar-file-item:active {
+  scale: 0.99;
+}
+
+.sidebar-file-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.file-button-wrapper {
+  position: absolute;
+  inset: auto 8px auto auto;
+  z-index: 1000;
+}
+
+.delete-file-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity .1s;
+}
+
+.sidebar-file-item:hover .delete-file-button {
+  opacity: 1;
+}
+
+.delete-file-button svg {
+  fill: rgb(90, 90, 90);
+  transition: fill .2s;
+}
+
+.delete-file-button:hover {
+  background-color: rgba(255, 97, 97, 0.1);
+}
+
+.delete-file-button:hover svg {
+  fill: rgb(255, 97, 97);
+}
