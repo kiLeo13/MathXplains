@@ -54,9 +54,10 @@ func main() {
 	e.POST("/api/appointments", routes.CreateAppointment)
 	e.DELETE("/api/appointments/:id", routes.DeleteAppointment)
 
-	e.GET("/api/notes", routes.GetNotes)
+	e.GET("/api/notes", routes.GetNotesSummary)
+	e.GET("/api/notes/:id", routes.GetNote)
 	e.POST("/api/notes", routes.CreateNote)
-	e.PUT("/api/notes/:id", routes.PutNote)
+	e.PUT("/api/notes/:id", routes.UpdateNote)
 	e.DELETE("/api/notes/:id", routes.DeleteNote)
 
 	e.GET("/api/subjects", routes.GetSubjects)

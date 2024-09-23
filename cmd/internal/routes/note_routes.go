@@ -6,13 +6,28 @@ import (
 	"net/http"
 )
 
-func GetNotes(c echo.Context) error {
+func GetNote(c echo.Context) error {
+	profile := c.QueryParam("profile")
+	idIn := c.Param("id")
+	id, err := ToInt("id", idIn)
+	if err != nil {
+		return c.JSON(err.Status, err)
+	}
+
+	note, err := service.GetNote(profile, id)
+	if err != nil {
+		return c.JSON(err.Status, err)
+	}
+	return c.JSON(http.StatusOK, note)
+}
+
+func GetNotesSummary(c echo.Context) error {
 	profile := c.QueryParam("profile")
 	if len(profile) == 0 {
 		return c.JSON(http.StatusBadRequest, service.ErrorProfileNotProvided)
 	}
 
-	notes, err := service.GetNotes(profile)
+	notes, err := service.GetNotesSummary(profile)
 	if err != nil {
 		return c.JSON(err.Status, err)
 	}
@@ -36,8 +51,9 @@ func CreateNote(c echo.Context) error {
 	return c.JSON(http.StatusOK, newNote)
 }
 
-func PutNote(c echo.Context) error {
+func UpdateNote(c echo.Context) error {
 	idIn := c.Param("id")
+	profile := c.Request().Header.Get("Profile")
 	var note service.NoteCreateDTO
 	if err := c.Bind(&note); err != nil {
 		return c.JSON(http.StatusBadRequest, service.ErrorMalformedJSON)
@@ -48,7 +64,7 @@ func PutNote(c echo.Context) error {
 		return c.JSON(err.Status, err)
 	}
 
-	newNote, err := service.PutNote(id, &note)
+	newNote, err := service.PutNote(profile, id, &note)
 	if err != nil {
 		return c.JSON(err.Status, err)
 	}
@@ -57,15 +73,15 @@ func PutNote(c echo.Context) error {
 
 func DeleteNote(c echo.Context) error {
 	idIn := c.Param("id")
+	profile := c.Request().Header.Get("Profile")
 	id, err := ToInt("id", idIn)
 	if err != nil {
 		return c.JSON(err.Status, err)
 	}
 
-	err = service.DeleteNote(id)
+	err = service.DeleteNote(profile, id)
 	if err != nil {
 		return c.JSON(err.Status, err)
 	}
-
 	return c.NoContent(http.StatusOK)
 }

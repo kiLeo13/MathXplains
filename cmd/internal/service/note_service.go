@@ -2,8 +2,8 @@ package service
 
 import (
 	domain "MathXplains/internal/domain/entity"
-	"database/sql"
-	"errors"
+	"crypto/sha512"
+	"encoding/hex"
 	"fmt"
 	"strings"
 )
@@ -15,14 +15,14 @@ const (
 	noteProfileMinlength = 3
 	noteProfileMaxlength = 50
 
-	noteContentMaxLength = 5_000_000
+	noteContentMaxLength = 500_000
 )
 
 type NoteDTO struct {
 	ID           int    `json:"id"`
-	Profile      string `json:"profile"`
 	Name         string `json:"name"`
 	Content      string `json:"content"`
+	CreatedAt    string `json:"created_at"`
 	LastModified string `json:"last_modified"`
 }
 
@@ -32,16 +32,52 @@ type NoteCreateDTO struct {
 	Content string `json:"content"`
 }
 
-func GetNotes(author string) ([]*NoteDTO, *APIError) {
-	notes, err := noteRepo.FindAllByProfile(author)
+// NotePreviewDTO is the entity used for the responses of GetNotesSummary,
+// returing the fewest amount of data as possible,
+// so the client is aware of all the notes they have created.
+//
+// A payload containing all the data (mostly the content) might overwhelm the
+// client and use unnecessary memory and bandwidth.
+//
+// This is the same principle of listing all the files in a file explorer,
+// you don't have to fully open them.
+type NotePreviewDTO struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func (n *NoteDTO) toPreview() *NotePreviewDTO {
+	return &NotePreviewDTO{
+		ID:   n.ID,
+		Name: n.Name,
+	}
+}
+
+func GetNote(profile string, id int) (*NoteDTO, *APIError) {
+	hashedProfile := HashProfile(profile)
+	note, err := noteRepo.FindByProfileAndID(hashedProfile, id)
 	if err != nil {
 		fmt.Println(err)
 		return nil, ErrorInternalServer
 	}
 
-	noteList := make([]*NoteDTO, len(notes))
+	if note == nil {
+		return nil, ErrorNoteNotFound
+	}
+	return toNoteDTO(note), nil
+}
+
+func GetNotesSummary(profile string) ([]*NotePreviewDTO, *APIError) {
+	hashedProfile := HashProfile(profile)
+	notes, err := noteRepo.FindAllByProfile(hashedProfile)
+	if err != nil {
+		fmt.Println(err)
+		return nil, ErrorInternalServer
+	}
+
+	noteList := make([]*NotePreviewDTO, len(notes))
 	for i, n := range notes {
-		noteList[i] = toNoteDTO(n)
+		noteList[i] = toNoteDTO(n).toPreview()
 	}
 	return noteList, nil
 }
@@ -49,7 +85,8 @@ func GetNotes(author string) ([]*NoteDTO, *APIError) {
 func CreateNote(note *NoteCreateDTO) (*NoteDTO, *APIError) {
 	note.Name = strings.TrimSpace(note.Name)
 	note.Profile = strings.TrimSpace(note.Profile)
-	found, err := noteRepo.ExistsByProfileAndName(note.Profile, note.Name)
+	hashedProfile := HashProfile(note.Profile)
+	found, err := noteRepo.ExistsByProfileAndName(hashedProfile, note.Name)
 	if err != nil {
 		fmt.Println(err)
 		return nil, ErrorInternalServer
@@ -70,11 +107,13 @@ func CreateNote(note *NoteCreateDTO) (*NoteDTO, *APIError) {
 		return nil, err
 	}
 
+	now := NowUTC()
 	newNote, err := noteRepo.Save(&domain.Note{
-		Profile:      note.Profile,
+		Profile:      hashedProfile,
 		Name:         note.Name,
 		Content:      note.Content,
-		LastModified: NowUTC(),
+		CreatedAt:    now,
+		LastModified: now,
 	})
 	if err != nil {
 		fmt.Println(err)
@@ -83,9 +122,13 @@ func CreateNote(note *NoteCreateDTO) (*NoteDTO, *APIError) {
 	return toNoteDTO(newNote), nil
 }
 
-func PutNote(id int, dto *NoteCreateDTO) (*NoteDTO, *APIError) {
-	note, err := noteRepo.FindByID(id)
-	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+func PutNote(profile string, id int, dto *NoteCreateDTO) (*NoteDTO, *APIError) {
+	if strings.TrimSpace(profile) == "" {
+		return nil, ErrorProfileNotProvided
+	}
+	hashedProfile := HashProfile(profile)
+	note, err := noteRepo.FindByProfileAndID(hashedProfile, id)
+	if err != nil {
 		fmt.Println(err)
 		return nil, ErrorInternalServer
 	}
@@ -94,13 +137,8 @@ func PutNote(id int, dto *NoteCreateDTO) (*NoteDTO, *APIError) {
 		return nil, ErrorNoteNotFound
 	}
 	dto.Name = strings.TrimSpace(dto.Name)
-	dto.Profile = strings.TrimSpace(dto.Profile)
 
 	if err := checkNoteName(dto.Name); err != nil {
-		return nil, err
-	}
-
-	if err := checkNoteProfile(dto.Profile); err != nil {
 		return nil, err
 	}
 
@@ -108,7 +146,6 @@ func PutNote(id int, dto *NoteCreateDTO) (*NoteDTO, *APIError) {
 		return nil, err
 	}
 
-	note.Profile = dto.Profile
 	note.Name = dto.Name
 	note.Content = dto.Content
 	note.LastModified = NowUTC()
@@ -120,9 +157,13 @@ func PutNote(id int, dto *NoteCreateDTO) (*NoteDTO, *APIError) {
 	return toNoteDTO(newNote), nil
 }
 
-func DeleteNote(id int) *APIError {
-	note, err := noteRepo.FindByID(id)
-	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+func DeleteNote(profile string, id int) *APIError {
+	if strings.TrimSpace(profile) == "" {
+		return ErrorProfileNotProvided
+	}
+	hashedProfile := HashProfile(profile)
+	note, err := noteRepo.FindByProfileAndID(hashedProfile, id)
+	if err != nil {
 		fmt.Println(err)
 		return ErrorInternalServer
 	}
@@ -131,7 +172,7 @@ func DeleteNote(id int) *APIError {
 		return ErrorNoteNotFound
 	}
 
-	err = noteRepo.DeleteByID(id)
+	err = noteRepo.DeleteByID(note.ID)
 	if err != nil {
 		fmt.Println(err)
 		return ErrorInternalServer
@@ -169,9 +210,17 @@ func checkNoteContent(content string) *APIError {
 func toNoteDTO(p *domain.Note) *NoteDTO {
 	return &NoteDTO{
 		ID:           p.ID,
-		Profile:      p.Profile,
 		Name:         p.Name,
 		Content:      p.Content,
+		CreatedAt:    FormatEpoch(p.CreatedAt),
 		LastModified: FormatEpoch(p.LastModified),
 	}
+}
+
+func HashProfile(profile string) string {
+	hasher := sha512.New()
+
+	hasher.Write([]byte(profile))
+	hashBytes := hasher.Sum(nil)
+	return hex.EncodeToString(hashBytes)
 }

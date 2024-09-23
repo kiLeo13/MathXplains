@@ -89,6 +89,7 @@ func getTables() []string {
 		  profile TEXT NOT NULL,
 		  name TEXT NOT NULL,
 		  content TEXT NOT NULL,
+		  created_at BIGINT NOT NULL,
 		  last_modified BIGINT NOT NULL,
 		  active INTEGER NOT NULL DEFAULT 1
 		)`,
