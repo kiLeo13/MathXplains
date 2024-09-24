@@ -20,6 +20,7 @@
 
 .sidebar-header {
   display: flex;
+  justify-content: center;
   width: 80%;
 }
 
@@ -36,7 +37,6 @@
 .profile-sidebar-components {
   display: flex;
   width: 100%;
-  gap: 0;
   justify-content: stretch;
 }
 

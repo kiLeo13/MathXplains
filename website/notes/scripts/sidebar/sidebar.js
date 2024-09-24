@@ -1,3 +1,4 @@
+import { load, unload } from "../board/board.js"
 import ROUTES from "../http/routes.js"
 import { toggle } from "./buttons.js"
 
@@ -94,16 +95,35 @@ function displayNotes(els) {
   for (const el of els) {
     const $note = $(el)
 
-    $note.find('.delete-file-button').on('click', deleteNote)
+    setListeners($note)
     $container.append($note)
+  }
+}
+
+function setListeners($el) {
+  $el.find('.delete-file-button').on('click', deleteNote)
+  $el.on('click', loadNoteHandler)
+}
+
+async function loadNoteHandler(e) {
+  const $item = $(e.currentTarget)
+  const id = $item.attr('id').substring('note-'.length)
+  const resp = await openNote(id)
+
+  if (resp.status === 200) {
+    load(id, resp.body.name, resp.body.content)
+    return
+  }
+
+  if (resp.status === 404) {
+    $el.remove()
   }
 }
 
 async function deleteNote(e) {
   const $btn = $(e.currentTarget)
   const profile = sessionStorage.getItem('profile')
-  console.log(JSON.stringify(e))
-  const id = $btn.attr('id').substring("delete-item-".length)
+  const id = $btn.attr('id').substring('delete-item-'.length)
 
   toggle($btn, false)
   const resp = await ROUTES.DELETE_NOTE.send({
@@ -116,9 +136,30 @@ async function deleteNote(e) {
   // we can just proceed to remove it from the UI
   if (resp.ok || resp.status === 404) {
     $btn.closest('.sidebar-file-item').remove()
+
+    if (isCurrent(id)) unload(id)
   } else {
     const json = await resp.json()
     alert("Error: " + json.message)
+  }
+}
+
+function isCurrent(id) {
+  const $board = $('#board-content')
+  const boardId = $board.attr('note')
+  
+  return boardId === id
+}
+
+async function openNote(id) {
+  const resp = await ROUTES.OPEN_NOTE.send({
+    path: {id: id},
+    query: {profile: sessionStorage.getItem('profile')}
+  })
+
+  return {
+    status: resp.status,
+    body: await resp.json()
   }
 }
 

@@ -1,6 +1,9 @@
 body {
   background-color: rgb(60, 57, 65);
   margin: 0;
+}
+
+* {
   font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 

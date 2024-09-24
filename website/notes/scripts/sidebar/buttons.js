@@ -40,6 +40,16 @@ export function loadingCreate(flag = true) {
   setLoading($btn, flag)
 }
 
+export function loadingSave(flag = true) {
+  const $btn = $('#save-file-button')
+  setLoading($btn, flag)
+}
+
+export function loadingRefreshContent(flag = true) {
+  const $btn = $('#refresh-content-button')
+  setLoading($btn, flag)
+}
+
 export function toggle($btn, flag) {
   if (flag) {
     $btn.removeAttr('disabled')
