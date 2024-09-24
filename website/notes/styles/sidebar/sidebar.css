@@ -21,7 +21,7 @@
 .sidebar-header {
   display: flex;
   justify-content: center;
-  width: 80%;
+  width: 100%;
 }
 
 .profile-input-label {
@@ -95,6 +95,7 @@
 .option-field {
   display: flex;
   flex-direction: column;
+  width: 80%;
   gap: 2px;
 }
 

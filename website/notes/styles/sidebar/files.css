@@ -2,9 +2,13 @@
   display: flex;
   margin-top: 12px;
   margin-bottom: 5px;
+
+  /* It doesn't feel centered */
+  margin-left: 1px;
   flex-direction: column;
+  align-items: stretch;
   height: 100%;
-  width: 250px;
+  width: 85%;
   overflow-y: scroll;
   gap: 5px;
   color: white;
