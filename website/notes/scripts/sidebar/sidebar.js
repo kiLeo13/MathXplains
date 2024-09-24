@@ -112,6 +112,8 @@ async function loadNoteHandler(e) {
 
   if (resp.status === 200) {
     load(id, resp.body.name, resp.body.content)
+    // Ticking the character counter
+    $('#board-content').trigger('input')
     return
   }
 
